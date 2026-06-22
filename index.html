@@ -125,12 +125,6 @@
     #reader-page.active {
       display: flex !important;
     }
-    #reader-page.active ~ footer {
-      display: none;
-    }
-    body:has(#reader-page.active) footer {
-      display: none;
-    }
     .reader-header {
       padding: 0.5rem 1rem;
       background: #111;
@@ -217,9 +211,7 @@
   <!-- HEADER -->
   <header>
     <img src="https://via.placeholder.com/70x70/222/fff?text=LOGO" alt="Logo" class="logo">
-	<h1 style="cursor:pointer;" onclick="showPage('home')">SPACE COP</h1>    <!--<div class="nav">
-      <button onclick="showPage('chapters')">All Chapters</button>
-    </div>-->
+	<h1 style="cursor:pointer;" onclick="showPage('home')">SPACE COP</h1>
   </header>
   
 
@@ -227,7 +219,6 @@
   <div id="home" class="page active">
     <section class="hero">
       <h2>Welcome</h2>
-      <!--<p>A personal independent Manga</p>-->
     </section>
     
     <section class="section">
@@ -249,10 +240,6 @@
       </div>
     </section>
   </div>
-  
-<footer>
-  <center><p>© 2026 Space Cop. All rights reserved.</p></center>
-</footer>
 
   <!-- ALL CHAPTERS PAGE -->
   <div id="chapters" class="page">
