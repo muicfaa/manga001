@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja" dir="rtl">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,21 +39,21 @@
       font-size: 1rem;
     }
     .recent-single {
-  display: flex;
-  gap: 1.5rem;
-  background: #1a1a1a;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid #333;
-  cursor: pointer;
-  max-width: 500px;
-  transition: border-color 0.2s;
-}
-.recent-single:hover { border-color: var(--accent); }
-.recent-single img { width: 120px; height: 160px; object-fit: cover; flex-shrink: 0; }
-.recent-info { padding: 1rem; display: flex; flex-direction: column; justify-content: center; gap: 0.6rem; }
-.chapter-name { font-size: 1.1rem; font-weight: 800; }
-.read-btn { display: inline-block; background: var(--accent); color: white; padding: 6px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; width: fit-content; }
+      display: flex;
+      gap: 1.5rem;
+      background: #1a1a1a;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #333;
+      cursor: pointer;
+      max-width: 500px;
+      transition: border-color 0.2s;
+    }
+    .recent-single:hover { border-color: var(--accent); }
+    .recent-single img { width: 120px; height: 160px; object-fit: cover; flex-shrink: 0; }
+    .recent-info { padding: 1rem; display: flex; flex-direction: column; justify-content: center; gap: 0.6rem; }
+    .chapter-name { font-size: 1.1rem; font-weight: 800; }
+    .read-btn { display: inline-block; background: var(--accent); color: white; padding: 6px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; width: fit-content; }
     button:hover { background: var(--accent); color: white; }
 
     .page { display: none; }
@@ -115,32 +115,22 @@
       flex-direction: column;
       height: 100vh;
       background: #0a0a0a;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 1000;
     }
     #reader-page.active {
       display: flex !important;
     }
     .reader-header {
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 2rem;
       background: #111;
       display: flex;
       align-items: center;
-      gap: 0.8rem;
+      gap: 1rem;
       border-bottom: 3px solid #333;
       flex-wrap: wrap;
-      flex-shrink: 0;
-    }
-    .reader-header button {
-      padding: 8px 14px;
-      font-size: 0.9rem;
+      flex-direction: row-reverse; /* Moves the ← Top button to the right side */
     }
     .reader-header h2 {
-      font-size: 1.3rem;
+      margin-right: auto; /* Ensures the chapter title stays on the left */
     }
     .pages-container {
       flex: 1;
@@ -148,74 +138,55 @@
       justify-content: center;
       align-items: center;
       gap: 4px;
-      padding: 10px;
+      padding: 20px;
       overflow: auto;
       background: #050505;
     }
     .comic-page {
-      max-width: 90vw;
-      max-height: 85vh;
+      max-height: 94vh;
       box-shadow: 0 0 40px rgba(0,0,0,0.95);
       background: white;
       cursor: pointer;
-      object-fit: contain;
     }
     .controls {
       background: #111;
-      padding: 1rem;
+      padding: 0.4rem; /* Drastically narrows the bottom controls section */
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
+      gap: 0.8rem;
       flex-wrap: wrap;
       border-top: 3px solid #333;
-      flex-shrink: 0;
-      flex-direction: row-reverse;
+    }
+    .controls button {
+      padding: 6px 14px; /* Matches the narrower container */
+      font-size: 0.9rem;
     }
     .page-info { 
-      font-size: 1.5rem; 
+      font-size: 1.2rem; 
       font-weight: bold; 
-      min-width: 220px; 
+      min-width: 160px; 
       text-align: center;
-      padding: 8px 16px;
+      padding: 4px 12px;
       background: #1a1a1a;
       border-radius: 8px;
     }
 
     @media (max-width: 900px) {
-      .pages-container { 
-        flex-direction: column; 
-        gap: 4px;
-        padding: 5px;
-        margin-top: 10px;
-      }
-      .comic-page { 
-        max-width: 100%; 
-        max-height: 70vh;
-        height: auto; 
-      }
-      .controls {
-        flex-direction: row-reverse;
-        gap: 0.5rem;
-        padding: 0.75rem;
-      }
-      .controls button {
-        padding: 10px 16px;
-        font-size: 0.9rem;
-      }
+      .pages-container { flex-direction: column; gap: 8px; }
+      .comic-page { max-width: 100%; height: auto; }
+      .controls { padding: 0.4rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
   <header>
     <img src="https://via.placeholder.com/70x70/222/fff?text=LOGO" alt="Logo" class="logo">
-	<h1 style="cursor:pointer;" onclick="showPage('home')">SPACE COP</h1>
+    <h1 style="cursor:pointer;" onclick="showPage('home')">SPACE COP</h1>
   </header>
   
 
-  <!-- HOME PAGE -->
   <div id="home" class="page active">
     <section class="hero">
       <h2>Welcome</h2>
@@ -231,49 +202,40 @@
       <div class="title-cards">
         <div class="title-card" onclick="filterBySeries(1)">
           <img src="https://via.placeholder.com/600x400/333/fff?text=SERIES+1" alt="Series 1">
-          <h3 style="margin-top: 1rem;">"Chapter 1"</h3>
+          <h3 style="margin-top: 1rem;">Series 1</h3>
         </div>
         <div class="title-card" onclick="filterBySeries(2)">
           <img src="https://via.placeholder.com/600x400/333/fff?text=SERIES+2" alt="Series 2">
-          <h3 style="margin-top: 1rem;">Series Title Two</h3>
+          <h3 style="margin-top: 1rem;">Series 2</h3>
         </div>
       </div>
     </section>
   </div>
+  
+  
 
-  <!-- ALL CHAPTERS PAGE -->
-  <div id="chapters" class="page">
-    <div class="section">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
-        <h2 id="chapters-title">Chapters</h2>
-        <button onclick="showPage('home')">← Back</button>
-      </div>
-      <div class="chapter-grid" id="all-chapters-grid"></div>
-    </div>
-  </div>
-
-  <!-- READER PAGE -->
   <div id="reader-page">
     <div class="reader-header">
-      <button onclick="exitReader()">← Top</button>
-      <h2 id="reader-chapter-title" style="flex:1;">Chapter Title</h2>
+      <button onclick="exitReader()">Top</button>
+      <h2 id="reader-chapter-title">Chapter name</h2>
     </div>
     
     <div class="pages-container" id="reader-pages-container"></div>
     
     <div class="controls">
-      <button onclick="nextSpread()">Next →</button>
-      <button onclick="prevSpread()">← Prev</button>
+      <button onclick="prevSpread()">← Next</button>
+      <button onclick="nextSpread()">Prev →</button>
     </div>
   </div>
 
   <script>
     const chapters = [
+const chapters = [
   {
     id: 1,
     title: "Chapter 1",
     series: 1,
-    thumb: "1824.jpg",
+    thumb: "1814.jpg",
     pages: [
       "1814.jpg","1815.jpg","1816.jpg","1817.jpg",
       "1818.jpg","1819.jpg","1820.jpg","1821.jpg",
@@ -282,6 +244,9 @@
     ]
   },
 ];
+		{ id:2, title:"Chapter 2 - Into the Dark", series:1, thumb:"1822.jpg", pages:["https://via.placeholder.com/1200x1600/eee/111?text=1","https://via.placeholder.com/1200x1600/eee/111?text=2"] },
+      { id:3, title:"Chapter 1 - Other Story", series:2, thumb:"https://via.placeholder.com/600x800/222/fff?text=S2+CH1", pages:["https://via.placeholder.com/1200x1600/eee/111?text=S2+1"] },
+    ];
 
     let currentIndex = 0;
     let currentSpread = 0;
@@ -294,18 +259,18 @@
     }
 
     function renderRecent() {
-  const recent = chapters[chapters.length - 1];
-  const recentIndex = chapters.length - 1;
-  document.getElementById('recent-grid').innerHTML = `
-    <center><div class="recent-single" onclick="startReading(${recentIndex})">
-      <img src="${recent.thumb}" alt="${recent.title}">
-      <div class="recent-info">
-        <span class="chapter-name">${recent.title}</span>
-        <span class="read-btn">Read Now →</span>
-      </div>
-    </div></center>
-  `;
-}
+      const recent = chapters[chapters.length - 1];
+      const recentIndex = chapters.length - 1;
+      document.getElementById('recent-grid').innerHTML = `
+        <center><div class="recent-single" onclick="startReading(${recentIndex})">
+          <img src="${recent.thumb}" alt="${recent.title}">
+          <div class="recent-info">
+            <span class="chapter-name">${recent.title}</span>
+            <span class="read-btn">Read Now →</span>
+          </div>
+        </div></center>
+      `;
+    }
 
     function renderAllChapters(filtered = chapters) {
       document.getElementById('all-chapters-grid').innerHTML = filtered.map((ch, i) => `
@@ -319,14 +284,11 @@
     function filterBySeries(seriesId) {
       const filtered = chapters.filter(ch => ch.series === seriesId);
       renderAllChapters(filtered);
-      const seriesNames = { 1: 'Series 1', 2: 'Series 2' };
-      document.getElementById('chapters-title').textContent = seriesNames[seriesId] || 'Chapters';
       showPage('chapters');
     }
 
     function showAllChapters() {
       renderAllChapters(chapters);
-      document.getElementById('chapters-title').textContent = 'All Chapters';
       showPage('chapters');
     }
 
@@ -352,12 +314,23 @@
       const start = currentSpread;
       const toShow = Math.min(2, ch.pages.length - start);
 
-      // Add images in reverse order so right page (first) appears on the left
-      for (let i = toShow - 1; i >= 0; i--) {
+      for (let i = 0; i < toShow; i++) {
         const img = document.createElement('img');
         img.src = ch.pages[start + i];
         img.className = 'comic-page';
-        img.onclick = nextSpread;
+        
+        // Custom left/right click navigation logic
+        img.onclick = function(e) {
+          const rect = img.getBoundingClientRect();
+          const x = e.clientX - rect.left; // Click coordinates relative to the image element
+          
+          if (x < rect.width / 2) {
+            nextSpread(); // Clicked Left Half -> Goes Next
+          } else {
+            prevSpread(); // Clicked Right Half -> Goes Prev
+          }
+        };
+        
         container.appendChild(img);
       }
 
@@ -398,14 +371,13 @@
     // Keyboard support
     document.addEventListener('keydown', e => {
       if (!document.getElementById('reader-page').classList.contains('active')) return;
-      if (e.key === 'ArrowRight') prevSpread();
-      if (e.key === 'ArrowLeft') nextSpread();
+      if (e.key === 'ArrowRight') nextSpread();
+      if (e.key === 'ArrowLeft') prevSpread();
       if (e.key === 'Escape') exitReader();
     });
 
     // Initialize
     renderRecent();
-    renderAllChapters();
     showPage('home');
   </script>
 </body>
