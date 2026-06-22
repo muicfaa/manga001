@@ -198,7 +198,7 @@
       <div class="title-cards">
         <div class="title-card" onclick="filterBySeries(1)">
           <img src="https://via.placeholder.com/600x400/333/fff?text=SERIES+1" alt="Series 1">
-          <h3 style="margin-top: 1rem;">"Chapter 1"</h3>
+          <h3 style="margin-top: 1rem;">Series Title One</h3>
         </div>
         <div class="title-card" onclick="filterBySeries(2)">
           <img src="https://via.placeholder.com/600x400/333/fff?text=SERIES+2" alt="Series 2">
@@ -208,7 +208,9 @@
     </section>
   </div>
   
-
+<footer>
+  <center><p>© 2026 Space Cop. All rights reserved.</p></center>
+</footer>
   <!-- ALL CHAPTERS PAGE 
   <div id="chapters" class="page">
     <div class="section">
@@ -230,23 +232,21 @@
     <div class="pages-container" id="reader-pages-container"></div>
     
     <div class="controls">
-      <button onclick="nextSpread()">← Next</button>
-      <button onclick="prevSpread()">Prev →</button>
+      <button onclick="prevSpread()">← Prev</button>
+      <button onclick="nextSpread()">Next →</button>
     </div>
   </div>
-<footer>
-  <center><p>© 2026 Space Cop. All rights reserved.</p></center>
-</footer>
+
   <script>
     const chapters = [
   {
     id: 1,
     title: "Chapter 1",
     series: 1,
-    thumb: "1824.jpg",
+    thumb: "1820.jpg",
     pages: [
       "1814.jpg","1815.jpg","1816.jpg","1817.jpg",
-      "1820.jpg","1821.jpg",
+      "1818.jpg","1819.jpg","1820.jpg","1821.jpg",
       "1822.jpg","1823.jpg","1824.jpg","1825.jpg",
       "1826.jpg","1827.jpg","1828.jpg","1829.jpg"
     ]
@@ -319,8 +319,7 @@
       const start = currentSpread;
       const toShow = Math.min(2, ch.pages.length - start);
 
-      // Add images in reverse order so right page (first) appears on the left
-      for (let i = toShow - 1; i >= 0; i--) {
+      for (let i = 0; i < toShow; i++) {
         const img = document.createElement('img');
         img.src = ch.pages[start + i];
         img.className = 'comic-page';
