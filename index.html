@@ -38,6 +38,22 @@
       font-weight: bold;
       font-size: 1rem;
     }
+    .recent-single {
+  display: flex;
+  gap: 1.5rem;
+  background: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #333;
+  cursor: pointer;
+  max-width: 500px;
+  transition: border-color 0.2s;
+}
+.recent-single:hover { border-color: var(--accent); }
+.recent-single img { width: 120px; height: 160px; object-fit: cover; flex-shrink: 0; }
+.recent-info { padding: 1rem; display: flex; flex-direction: column; justify-content: center; gap: 0.6rem; }
+.chapter-name { font-size: 1.1rem; font-weight: 800; }
+.read-btn { display: inline-block; background: var(--accent); color: white; padding: 6px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; width: fit-content; }
     button:hover { background: var(--accent); color: white; }
 
     .page { display: none; }
@@ -118,7 +134,7 @@
       justify-content: center;
       align-items: center;
       gap: 12px;
-      padding: 0px;
+      padding: 20px;
       overflow: auto;
       background: #050505;
     }
@@ -168,7 +184,7 @@
   <!-- HOME PAGE -->
   <div id="home" class="page active">
     <section class="hero">
-      <h2>Welcom</h2>
+      <h2>Welcome</h2>
       <!--<p>A personal independent Manga</p>-->
     </section>
     
@@ -182,7 +198,7 @@
       <div class="title-cards">
         <div class="title-card" onclick="filterBySeries(1)">
           <img src="https://via.placeholder.com/600x400/333/fff?text=SERIES+1" alt="Series 1">
-          <h3 style="margin-top: 1rem;">Series Title One</h3>
+          <h3 style="margin-top: 1rem;">"Chapter 1"</h3>
         </div>
         <div class="title-card" onclick="filterBySeries(2)">
           <img src="https://via.placeholder.com/600x400/333/fff?text=SERIES+2" alt="Series 2">
@@ -191,17 +207,20 @@
       </div>
     </section>
   </div>
-
-  <!-- ALL CHAPTERS PAGE -->
+  
+<footer>
+  <center><p>© 2026 Space Cop. All rights reserved.</p></center>
+</footer>
+  <!-- ALL CHAPTERS PAGE 
   <div id="chapters" class="page">
     <div class="section">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
         <h2>All Chapters</h2>
-        <!--<button onclick="showAllChapters()">Show All</button>-->
+        <button onclick="showAllChapters()">Show All</button>
       </div>
       <div class="chapter-grid" id="all-chapters-grid"></div>
     </div>
-  </div>
+  </div>-->
 
   <!-- READER PAGE -->
   <div id="reader-page">
@@ -224,7 +243,7 @@
     id: 1,
     title: "Chapter 1",
     series: 1,
-    thumb: "1814.jpg",
+    thumb: "1824.jpg",
     pages: [
       "1814.jpg","1815.jpg","1816.jpg","1817.jpg",
       "1818.jpg","1819.jpg","1820.jpg","1821.jpg",
@@ -233,9 +252,6 @@
     ]
   },
 ];
-      { id:2, title:"Chapter 2 - Into the Dark", series:1, thumb:"https://via.placeholder.com/600x800/222/fff?text=CH2", pages:["https://via.placeholder.com/1200x1600/eee/111?text=1","https://via.placeholder.com/1200x1600/eee/111?text=2"] },
-      { id:3, title:"Chapter 1 - Other Story", series:2, thumb:"https://via.placeholder.com/600x800/222/fff?text=S2+CH1", pages:["https://via.placeholder.com/1200x1600/eee/111?text=S2+1"] },
-    ];
 
     let currentIndex = 0;
     let currentSpread = 0;
@@ -248,13 +264,18 @@
     }
 
     function renderRecent() {
-      document.getElementById('recent-grid').innerHTML = chapters.map((ch, i) => `
-        <div class="chapter-card" onclick="startReading(${i})">
-          <img src="${ch.thumb}" alt="${ch.title}">
-          <h3>${ch.title}</h3>
-        </div>
-      `).join('');
-    }
+  const recent = chapters[chapters.length - 1];
+  const recentIndex = chapters.length - 1;
+  document.getElementById('recent-grid').innerHTML = `
+    <center><div class="recent-single" onclick="startReading(${recentIndex})">
+      <img src="${recent.thumb}" alt="${recent.title}">
+      <div class="recent-info">
+        <span class="chapter-name">${recent.title}</span>
+        <span class="read-btn">Read Now →</span>
+      </div>
+    </div></center>
+  `;
+}
 
     function renderAllChapters(filtered = chapters) {
       document.getElementById('all-chapters-grid').innerHTML = filtered.map((ch, i) => `
