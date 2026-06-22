@@ -319,7 +319,8 @@
       const start = currentSpread;
       const toShow = Math.min(2, ch.pages.length - start);
 
-      for (let i = 0; i < toShow; i++) {
+      // Add images in reverse order so right page (first) appears on the left
+      for (let i = toShow - 1; i >= 0; i--) {
         const img = document.createElement('img');
         img.src = ch.pages[start + i];
         img.className = 'comic-page';
