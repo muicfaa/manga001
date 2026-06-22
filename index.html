@@ -115,11 +115,20 @@
       flex-direction: column;
       height: 100vh;
       background: #0a0a0a;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1000;
     }
     #reader-page.active {
       display: flex !important;
     }
     #reader-page.active ~ footer {
+      display: none;
+    }
+    body:has(#reader-page.active) footer {
       display: none;
     }
     .reader-header {
@@ -130,6 +139,7 @@
       gap: 0.8rem;
       border-bottom: 3px solid #333;
       flex-wrap: wrap;
+      flex-shrink: 0;
     }
     .reader-header button {
       padding: 8px 14px;
@@ -143,16 +153,18 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       padding: 20px;
       overflow: auto;
       background: #050505;
     }
     .comic-page {
-      max-height: 94vh;
+      max-width: 100%;
+      max-height: 100%;
       box-shadow: 0 0 40px rgba(0,0,0,0.95);
       background: white;
       cursor: pointer;
+      object-fit: contain;
     }
     .controls {
       background: #111;
@@ -163,6 +175,7 @@
       gap: 1.5rem;
       flex-wrap: wrap;
       border-top: 3px solid #333;
+      flex-shrink: 0;
     }
     .page-info { 
       font-size: 1.5rem; 
@@ -175,7 +188,7 @@
     }
 
     @media (max-width: 900px) {
-      .pages-container { flex-direction: column; gap: 8px; }
+      .pages-container { flex-direction: column; gap: 4px; }
       .comic-page { max-width: 100%; height: auto; }
     }
   </style>
