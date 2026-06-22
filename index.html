@@ -135,7 +135,6 @@
       align-items: center;
       gap: 12px;
       padding: 20px;
-      padding: 0px;
       overflow: auto;
       background: #050505;
     }
@@ -186,7 +185,6 @@
   <div id="home" class="page active">
     <section class="hero">
       <h2>Welcome</h2>
-      <h2>Welcom</h2>
       <!--<p>A personal independent Manga</p>-->
     </section>
 
@@ -201,7 +199,6 @@
         <div class="title-card" onclick="filterBySeries(1)">
           <img src="https://via.placeholder.com/600x400/333/fff?text=SERIES+1" alt="Series 1">
           <h3 style="margin-top: 1rem;">"Chapter 1"</h3>
-          <h3 style="margin-top: 1rem;">Series Title One</h3>
         </div>
         <div class="title-card" onclick="filterBySeries(2)">
           <img src="https://via.placeholder.com/600x400/333/fff?text=SERIES+2" alt="Series 2">
@@ -210,7 +207,7 @@
       </div>
     </section>
   </div>
-  
+
 <footer>
   <center><p>© 2026 Space Cop. All rights reserved.</p></center>
 </footer>
@@ -222,7 +219,8 @@
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
         <h2>All Chapters</h2>
         <button onclick="showAllChapters()">Show All</button>
-        <!--<button onclick="showAllChapters()">Show All</button>-->
+        <h2 id="chapters-title">Chapters</h2>
+        <button onclick="showPage('home')">← Back</button>
       </div>
       <div class="chapter-grid" id="all-chapters-grid"></div>
     </div>
@@ -250,8 +248,7 @@
     id: 1,
     title: "Chapter 1",
     series: 1,
-    thumb: "1820.jpg",
-    thumb: "1814.jpg",
+    thumb: "1824.jpg",
     pages: [
       "1814.jpg","1815.jpg","1816.jpg","1817.jpg",
       "1818.jpg","1819.jpg","1820.jpg","1821.jpg",
@@ -260,9 +257,6 @@
     ]
   },
 ];
-      { id:2, title:"Chapter 2 - Into the Dark", series:1, thumb:"https://via.placeholder.com/600x800/222/fff?text=CH2", pages:["https://via.placeholder.com/1200x1600/eee/111?text=1","https://via.placeholder.com/1200x1600/eee/111?text=2"] },
-      { id:3, title:"Chapter 1 - Other Story", series:2, thumb:"https://via.placeholder.com/600x800/222/fff?text=S2+CH1", pages:["https://via.placeholder.com/1200x1600/eee/111?text=S2+1"] },
-    ];
 
     let currentIndex = 0;
     let currentSpread = 0;
@@ -287,13 +281,6 @@
     </div></center>
   `;
 }
-      document.getElementById('recent-grid').innerHTML = chapters.map((ch, i) => `
-        <div class="chapter-card" onclick="startReading(${i})">
-          <img src="${ch.thumb}" alt="${ch.title}">
-          <h3>${ch.title}</h3>
-        </div>
-      `).join('');
-    }
 
     function renderAllChapters(filtered = chapters) {
       document.getElementById('all-chapters-grid').innerHTML = filtered.map((ch, i) => `
@@ -307,11 +294,14 @@
     function filterBySeries(seriesId) {
       const filtered = chapters.filter(ch => ch.series === seriesId);
       renderAllChapters(filtered);
+      const seriesNames = { 1: 'Series 1', 2: 'Series 2' };
+      document.getElementById('chapters-title').textContent = seriesNames[seriesId] || 'Chapters';
       showPage('chapters');
     }
 
     function showAllChapters() {
       renderAllChapters(chapters);
+      document.getElementById('chapters-title').textContent = 'All Chapters';
       showPage('chapters');
     }
 
@@ -337,7 +327,8 @@
       const start = currentSpread;
       const toShow = Math.min(2, ch.pages.length - start);
 
-      for (let i = 0; i < toShow; i++) {
+      // Add images in reverse order so right page (first) appears on the left
+      for (let i = toShow - 1; i >= 0; i--) {
         const img = document.createElement('img');
         img.src = ch.pages[start + i];
         img.className = 'comic-page';
