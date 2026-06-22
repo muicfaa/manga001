@@ -119,21 +119,31 @@
     #reader-page.active {
       display: flex !important;
     }
+    #reader-page.active ~ footer {
+      display: none;
+    }
     .reader-header {
-      padding: 1rem 2rem;
+      padding: 0.5rem 1rem;
       background: #111;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.8rem;
       border-bottom: 3px solid #333;
       flex-wrap: wrap;
+    }
+    .reader-header button {
+      padding: 8px 14px;
+      font-size: 0.9rem;
+    }
+    .reader-header h2 {
+      font-size: 1.3rem;
     }
     .pages-container {
       flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 12px;
+      gap: 6px;
       padding: 20px;
       overflow: auto;
       background: #050505;
