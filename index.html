@@ -211,16 +211,17 @@
 <footer>
   <center><p>© 2026 Space Cop. All rights reserved.</p></center>
 </footer>
-  <!-- ALL CHAPTERS PAGE 
+
+  <!-- ALL CHAPTERS PAGE -->
   <div id="chapters" class="page">
     <div class="section">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
-        <h2>All Chapters</h2>
-        <button onclick="showAllChapters()">Show All</button>
+        <h2 id="chapters-title">Chapters</h2>
+        <button onclick="showPage('home')">← Back</button>
       </div>
       <div class="chapter-grid" id="all-chapters-grid"></div>
     </div>
-  </div>-->
+  </div>
 
   <!-- READER PAGE -->
   <div id="reader-page">
@@ -289,11 +290,14 @@
     function filterBySeries(seriesId) {
       const filtered = chapters.filter(ch => ch.series === seriesId);
       renderAllChapters(filtered);
+      const seriesNames = { 1: 'Series 1', 2: 'Series 2' };
+      document.getElementById('chapters-title').textContent = seriesNames[seriesId] || 'Chapters';
       showPage('chapters');
     }
 
     function showAllChapters() {
       renderAllChapters(chapters);
+      document.getElementById('chapters-title').textContent = 'All Chapters';
       showPage('chapters');
     }
 
