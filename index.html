@@ -263,10 +263,12 @@
  
     // Browser back button = exit reader
     window.addEventListener('popstate', () => {
-      if (document.getElementById('reader-page').classList.contains('active')) {
-        exitReader();
-      }
-    });
+  if (document.getElementById('reader-page').classList.contains('active')) {
+    exitReader();
+  } else {
+    history.back();
+  }
+});
  
     // Keyboard
     document.addEventListener('keydown', e => {
