@@ -95,7 +95,7 @@
 
     /* ==================== READER PAGE ==================== */
     #reader-page {
-      display: none;
+      display: none !important;
       flex-direction: column;
       height: 100vh;
       background: #0a0a0a;
@@ -160,16 +160,16 @@
   <header>
     <img src="https://via.placeholder.com/70x70/222/fff?text=LOGO" alt="Logo" class="logo">
     <h1>SPACE COP</h1>
-    <div class="nav">
+    <!--<div class="nav">
       <button onclick="showPage('chapters')">All Chapters</button>
-    </div>
+    </div>-->
   </header>
 
   <!-- HOME PAGE -->
   <div id="home" class="page active">
     <section class="hero">
-      <h2>Welcome</h2>
-      <p>A personal independent Manga</p>
+      <h2>Welcom</h2>
+      <!--<p>A personal independent Manga</p>-->
     </section>
     
     <section class="section">
@@ -206,7 +206,7 @@
   <!-- READER PAGE -->
   <div id="reader-page">
     <div class="reader-header">
-      <button onclick="exitReader()">← Back to Home</button>
+      <button onclick="exitReader()">← Top</button>
       <h2 id="reader-chapter-title" style="flex:1;">Chapter Title</h2>
     </div>
     
@@ -215,13 +215,12 @@
     <div class="controls">
       <button onclick="prevSpread()">← Prev</button>
       <button onclick="nextSpread()">Next →</button>
-
     </div>
   </div>
 
   <script>
     const chapters = [
-      { id:1, title:"Chapter 1 - The Awakening", series:1, thumb:"https://via.placeholder.com/600x800/222/fff?text=CH1", pages:["https://via.placeholder.com/1200x1600/eee/111?text=1","https://via.placeholder.com/1200x1600/eee/111?text=2","https://via.placeholder.com/1200x1600/eee/111?text=3"] },
+      { id:1, title:"Chapter 1 - The Awakening", series:1, thumb:"https://via.placeholder.com/600x800/222/fff?text=CH1", pages:["https://via.placeholder.com/1200x1600/eee/111?text=1","https://via.placeholder.com/1200x1600/eee/111?text=2"] },
       { id:2, title:"Chapter 2 - Into the Dark", series:1, thumb:"https://via.placeholder.com/600x800/222/fff?text=CH2", pages:["https://via.placeholder.com/1200x1600/eee/111?text=1","https://via.placeholder.com/1200x1600/eee/111?text=2"] },
       { id:3, title:"Chapter 1 - Other Story", series:2, thumb:"https://via.placeholder.com/600x800/222/fff?text=S2+CH1", pages:["https://via.placeholder.com/1200x1600/eee/111?text=S2+1"] },
     ];
@@ -231,6 +230,7 @@
 
     function showPage(pageId) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('reader-page').classList.remove('active');
       const page = document.getElementById(pageId);
       page.classList.add('active');
     }
@@ -269,7 +269,8 @@
       currentSpread = 0;
       const ch = chapters[index];
       document.getElementById('reader-chapter-title').textContent = ch.title;
-      showPage('reader-page');
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('reader-page').classList.add('active');
       renderCurrentSpread();
     }
 
