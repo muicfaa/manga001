@@ -7,13 +7,13 @@
   <style>
     :root { --accent: #e69039; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
+ 
     body {
       background: #0f0f0f;
       color: #eee;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
-
+ 
     /* ========== HEADER ========== */
     header {
       background: #111;
@@ -26,8 +26,9 @@
       top: 0;
       z-index: 100;
     }
-   .logo {
-      height: 70px; width: 70px;
+    .logo {
+      height: 70px;
+      width: 70px;
       border: 3px solid var(--accent);
       border-radius: 12px;
       object-fit: contain;
@@ -38,40 +39,27 @@
       letter-spacing: -1px;
       cursor: pointer;
     }
-
-    /* Hide header when reader is open */
+ 
     body.reader-open header,
     body.reader-open footer { display: none; }
-
-    button {
-      background: #222;
-      color: #eee;
-      border: 2px solid var(--accent);
-      padding: 12px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1rem;
-    }
-    button:hover { background: var(--accent); color: white; }
-
-   .page { display: none; }
-   .page.active { display: block; }
-
-   .hero {
+ 
+    .page { display: none; }
+    .page.active { display: block; }
+ 
+    .hero {
       text-align: center;
       padding: 5rem 1rem 3rem;
       background: linear-gradient(to bottom, #1a1a1a, #0f0f0f);
     }
-
-   .section {
+ 
+    .section {
       padding: 3rem 2rem;
       max-width: 1300px;
       margin: 0 auto;
     }
-
-    /* ========== HOME GRID ========== */
-   .recent-single {
+ 
+    /* ========== RECENT ========== */
+    .recent-single {
       display: flex;
       gap: 1.5rem;
       background: #1a1a1a;
@@ -83,17 +71,17 @@
       margin: 0 auto;
       transition: border-color 0.2s;
     }
-   .recent-single:hover { border-color: var(--accent); }
-   .recent-single img { width: 120px; height: 160px; object-fit: cover; flex-shrink: 0; }
-   .recent-info {
+    .recent-single:hover { border-color: var(--accent); }
+    .recent-single img { width: 120px; height: 160px; object-fit: cover; flex-shrink: 0; }
+    .recent-info {
       padding: 1rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
       gap: 0.6rem;
     }
-   .chapter-name { font-size: 1.1rem; font-weight: 800; }
-   .read-btn {
+    .chapter-name { font-size: 1.1rem; font-weight: 800; }
+    .read-btn {
       display: inline-block;
       background: var(--accent);
       color: white;
@@ -103,13 +91,14 @@
       font-weight: 700;
       width: fit-content;
     }
-
-   .title-cards {
+ 
+    /* ========== SERIES ========== */
+    .title-cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
     }
-   .title-card {
+    .title-card {
       background: #222;
       border-radius: 12px;
       padding: 1rem;
@@ -118,22 +107,22 @@
       cursor: pointer;
       border: 1px solid #333;
     }
-   .title-card:hover { transform: scale(1.05); border-color: var(--accent); }
-   .title-card img {
+    .title-card:hover { transform: scale(1.05); border-color: var(--accent); }
+    .title-card img {
       width: 100%;
       height: 280px;
       object-fit: cover;
       border-radius: 8px;
     }
-
+ 
     footer {
       text-align: center;
       padding: 2rem;
       color: #666;
       font-size: 0.9rem;
     }
-
-    /* ========== MINIMAL FULLSCREEN READER ========== */
+ 
+    /* ========== READER ========== */
     #reader-page {
       display: none;
       position: fixed;
@@ -141,83 +130,73 @@
       background: #000;
       z-index: 9999;
       overflow: hidden;
+      cursor: pointer;
     }
-
-    #reader-page.active {
-      display: block;
-    }
-
-   .reader-img {
+    #reader-page.active { display: block; }
+ 
+    .reader-img {
       width: 100vw;
       height: 100dvh;
       object-fit: contain;
       display: block;
-      margin: 0 auto;
       user-select: none;
       -webkit-user-drag: none;
       -webkit-touch-callout: none;
     }
-
-   .tap-zone {
-      position: absolute;
-      top: 0;
-      height: 100%;
-      width: 33.33%;
-      z-index: 10;
-    }
-    #tap-left { left: 0; }
-    #tap-right { right: 0; }
-
+ 
   </style>
 </head>
 <body>
-
+ 
   <!-- HEADER -->
   <header>
     <img src="https://via.placeholder.com/70x70/222/fff?text=LOGO" alt="Logo" class="logo">
     <h1 onclick="showPage('home')">SPACE COP</h1>
   </header>
-
+ 
   <!-- HOME PAGE -->
   <div id="home" class="page active">
+ 
     <section class="hero">
       <h2>Welcome</h2>
     </section>
-
+ 
     <section class="section">
       <h2 style="margin-bottom: 1.5rem; text-align:center;">New</h2>
       <div id="recent-grid"></div>
     </section>
-
+ 
     <section class="section">
       <h2 style="margin-bottom: 1.5rem; text-align:center;">Series</h2>
       <div class="title-cards">
         <div class="title-card" onclick="startReading(0)">
-          <img src="1824.jpg" alt="Chapter 1">
+          <img src="1814.jpg" alt="Chapter 1">
           <h3 style="margin-top: 1rem;">Chapter 1</h3>
         </div>
       </div>
     </section>
+ 
   </div>
-
+ 
   <footer>
     <p>© 2026 Space Cop. All rights reserved.</p>
   </footer>
-
-  <!-- MINIMAL READER -->
+ 
+  <!-- READER -->
   <div id="reader-page">
     <img id="reader-img" class="reader-img" alt="Page" />
-    <div id="tap-left" class="tap-zone"></div>
-    <div id="tap-right" class="tap-zone"></div>
   </div>
-
+ 
   <script>
+    // ============================================================
+    //  YOUR DATA — only edit this when adding new chapters
+    // ============================================================
     const chapters = [
       {
         id: 1,
         title: "Chapter 1",
         series: 1,
-        thumb: "1824.jpg",
+        thumb: "1814.jpg",
         pages: [
           "1814.jpg","1815.jpg","1816.jpg","1817.jpg",
           "1818.jpg","1819.jpg","1820.jpg","1821.jpg",
@@ -226,17 +205,17 @@
         ]
       },
     ];
-
+    // ============================================================
+ 
     let currentIndex = 0;
-    let currentPage = 0;
-    let touchStartX = 0;
-
+    let currentPage  = 0;
+ 
     function showPage(pageId) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
       window.scrollTo(0, 0);
     }
-
+ 
     function renderRecent() {
       const recent = chapters[chapters.length - 1];
       const recentIndex = chapters.length - 1;
@@ -250,80 +229,59 @@
         </div>
       `;
     }
-
+ 
     function startReading(index) {
       currentIndex = index;
-      currentPage = 0;
+      currentPage  = 0;
       document.getElementById('reader-page').classList.add('active');
       document.body.classList.add('reader-open');
       showPageImage();
+      history.pushState({ reader: true }, '');
     }
-
+ 
     function exitReader() {
       document.getElementById('reader-page').classList.remove('active');
       document.body.classList.remove('reader-open');
     }
-
+ 
     function showPageImage() {
-      const ch = chapters[currentIndex];
-      const img = document.getElementById('reader-img');
-      img.src = ch.pages[currentPage];
+      document.getElementById('reader-img').src = chapters[currentIndex].pages[currentPage];
     }
-
+ 
     function nextPage() {
       const ch = chapters[currentIndex];
       if (currentPage < ch.pages.length - 1) {
         currentPage++;
         showPageImage();
       } else {
-        exitReader(); // end of chapter = exit. Change to nextChapter() if you want auto-advance
+        history.back(); // triggers popstate → exitReader
       }
     }
-
-    function prevPage() {
-      if (currentPage > 0) {
-        currentPage--;
-        showPageImage();
+ 
+    // Click anywhere = next page
+    document.getElementById('reader-page').onclick = nextPage;
+ 
+    // Browser back button = exit reader
+    window.addEventListener('popstate', () => {
+      if (document.getElementById('reader-page').classList.contains('active')) {
+        exitReader();
       }
-    }
-
-    // Tap zones
-    document.getElementById('tap-left').onclick = prevPage;
-    document.getElementById('tap-right').onclick = nextPage;
-
-    // Tap center to exit
-    document.getElementById('reader-img').onclick = (e) => {
-      const x = e.clientX;
-      const w = window.innerWidth;
-      if (x > w * 0.33 && x < w * 0.66) exitReader();
-    };
-
-    // Swipe support
-    const reader = document.getElementById('reader-page');
-    reader.addEventListener('touchstart', e => {
-      touchStartX = e.touches[0].clientX;
-    }, {passive: true});
-
-    reader.addEventListener('touchend', e => {
-      let touchEndX = e.changedTouches[0].clientX;
-      let diff = touchStartX - touchEndX;
-      if (Math.abs(diff) > 50) {
-        if (diff > 0) nextPage(); // swipe left = next
-        else prevPage(); // swipe right = prev
-      }
-    }, {passive: true});
-
+    });
+ 
     // Keyboard
     document.addEventListener('keydown', e => {
       if (!document.getElementById('reader-page').classList.contains('active')) return;
       if (e.key === 'ArrowRight' || e.key === ' ') nextPage();
-      if (e.key === 'ArrowLeft') prevPage();
-      if (e.key === 'Escape') exitReader();
+      if (e.key === 'ArrowLeft') {
+        if (currentPage > 0) { currentPage--; showPageImage(); }
+      }
+      if (e.key === 'Escape') history.back();
     });
-
+ 
     // Init
     renderRecent();
     showPage('home');
   </script>
 </body>
 </html>
+ 
