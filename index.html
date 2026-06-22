@@ -159,9 +159,8 @@
   <!-- HEADER -->
   <header>
     <img src="https://via.placeholder.com/70x70/222/fff?text=LOGO" alt="Logo" class="logo">
-    <h1>YOUR COMIC TITLE</h1>
+    <h1>SPACE COP</h1>
     <div class="nav">
-      <button onclick="showPage('home')">Home</button>
       <button onclick="showPage('chapters')">All Chapters</button>
     </div>
   </header>
@@ -169,17 +168,17 @@
   <!-- HOME PAGE -->
   <div id="home" class="page active">
     <section class="hero">
-      <h2>Welcome to the Archive</h2>
-      <p>A personal independent comic • No ads, just stories</p>
+      <h2>Welcome</h2>
+      <p>A personal independent Manga</p>
     </section>
     
     <section class="section">
-      <h2 style="margin-bottom: 1.5rem; text-align:center;">Recent Chapters</h2>
+      <h2 style="margin-bottom: 1.5rem; text-align:center;">New</h2>
       <div class="chapter-grid" id="recent-grid"></div>
     </section>
 
     <section class="section titles">
-      <h2 style="margin-bottom: 1.5rem; text-align:center;">Browse by Series</h2>
+      <h2 style="margin-bottom: 1.5rem; text-align:center;">Series</h2>
       <div class="title-cards">
         <div class="title-card" onclick="filterBySeries(1)">
           <img src="https://via.placeholder.com/600x400/333/fff?text=SERIES+1" alt="Series 1">
@@ -198,7 +197,7 @@
     <div class="section">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
         <h2>All Chapters</h2>
-        <button onclick="showAllChapters()">Show All</button>
+        <!--<button onclick="showAllChapters()">Show All</button>-->
       </div>
       <div class="chapter-grid" id="all-chapters-grid"></div>
     </div>
@@ -214,11 +213,8 @@
     <div class="pages-container" id="reader-pages-container"></div>
     
     <div class="controls">
-      <button onclick="prevChapter()">Prev Chapter</button>
-      <button onclick="prevSpread()">← Previous</button>
-      <div class="page-info" id="reader-page-counter">1 — 2 / 20</div>
+      <button onclick="prevSpread()">← Prev</button>
       <button onclick="nextSpread()">Next →</button>
-      <button onclick="nextChapter()">Next Chapter</button>
 
     </div>
   </div>
