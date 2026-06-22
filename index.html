@@ -38,22 +38,6 @@
       font-weight: bold;
       font-size: 1rem;
     }
-    .recent-single {
-  display: flex;
-  gap: 1.5rem;
-  background: #1a1a1a;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid #333;
-  cursor: pointer;
-  max-width: 500px;
-  transition: border-color 0.2s;
-}
-.recent-single:hover { border-color: var(--accent); }
-.recent-single img { width: 120px; height: 160px; object-fit: cover; flex-shrink: 0; }
-.recent-info { padding: 1rem; display: flex; flex-direction: column; justify-content: center; gap: 0.6rem; }
-.chapter-name { font-size: 1.1rem; font-weight: 800; }
-.read-btn { display: inline-block; background: var(--accent); color: white; padding: 6px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; width: fit-content; }
     button:hover { background: var(--accent); color: white; }
 
     .page { display: none; }
@@ -133,7 +117,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 12px;
+      gap: 4px;
       padding: 20px;
       overflow: auto;
       background: #050505;
@@ -175,52 +159,49 @@
   <!-- HEADER -->
   <header>
     <img src="https://via.placeholder.com/70x70/222/fff?text=LOGO" alt="Logo" class="logo">
-	<h1 style="cursor:pointer;" onclick="showPage('home')">SPACE COP</h1>    <!--<div class="nav">
+    <h1>SPACE COP</h1>
+    <!--<div class="nav">
       <button onclick="showPage('chapters')">All Chapters</button>
     </div>-->
   </header>
-  
 
   <!-- HOME PAGE -->
   <div id="home" class="page active">
     <section class="hero">
-      <h2>Welcome</h2>
+      <h2>Welcom</h2>
       <!--<p>A personal independent Manga</p>-->
     </section>
     
     <section class="section">
-      <h2 style="margin-bottom: 1.5rem; text-align:center;">New</h2>
+      <h2 style="margin-bottom: 1rem; text-align:center;">New</h2>
       <div class="chapter-grid" id="recent-grid"></div>
     </section>
 
     <section class="section titles">
-      <h2 style="margin-bottom: 1.5rem; text-align:center;">Series</h2>
+      <h2 style="margin-bottom: 1rem; text-align:center;">Series</h2>
       <div class="title-cards">
         <div class="title-card" onclick="filterBySeries(1)">
           <img src="https://via.placeholder.com/600x400/333/fff?text=SERIES+1" alt="Series 1">
-          <h3 style="margin-top: 1rem;">Series Title One</h3>
+          <h3 style="margin-top: 0.5rem;">Series 1</h3>
         </div>
         <div class="title-card" onclick="filterBySeries(2)">
           <img src="https://via.placeholder.com/600x400/333/fff?text=SERIES+2" alt="Series 2">
-          <h3 style="margin-top: 1rem;">Series Title Two</h3>
+          <h3 style="margin-top: 0.5rem;">Series:1</h3>
         </div>
       </div>
     </section>
   </div>
-  
-<footer>
-  <center><p>© 2026 Space Cop. All rights reserved.</p></center>
-</footer>
-  <!-- ALL CHAPTERS PAGE 
+
+  <!-- ALL CHAPTERS PAGE -->
   <div id="chapters" class="page">
     <div class="section">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
         <h2>All Chapters</h2>
-        <button onclick="showAllChapters()">Show All</button>
+        <!--<button onclick="showAllChapters()">Show All</button>-->
       </div>
       <div class="chapter-grid" id="all-chapters-grid"></div>
     </div>
-  </div>-->
+  </div>
 
   <!-- READER PAGE -->
   <div id="reader-page">
@@ -238,30 +219,22 @@
   </div>
 
   <script>
-    const chapters = [
+const chapters = [
   {
     id: 1,
     title: "Chapter 1",
-    series: 2,
-    thumb: "1827.jpg",
+    series: 1,
+    thumb: "1825.jpg",
     pages: [
       "1814.jpg","1815.jpg","1816.jpg","1817.jpg",
-      "1818.jpg","1819.jpg","1820.jpg","1821.jpg",
+      "1820.jpg","1821.jpg",
       "1822.jpg","1823.jpg","1824.jpg","1825.jpg",
       "1826.jpg","1827.jpg","1828.jpg","1829.jpg"
     ]
   },
-  {
-    id: 2,
-    title: "Chapter 2",
-    series: 2,
-    thumb: "2820.jpg",
-    pages: [
-      "2814.jpg","2815.jpg","2816.jpg","2817.jpg",
-      "2818.jpg","2819.jpg","2820.jpg","2821.jpg"
-    ]
-  }
-];
+];      { id:2, title:"Chapter 2 - Into the Dark", series:1, thumb:"https://via.placeholder.com/600x800/222/fff?text=CH2", pages:["https://via.placeholder.com/1200x1600/eee/111?text=1","https://via.placeholder.com/1200x1600/eee/111?text=2"] },
+      { id:3, title:"Chapter 1 - Other Story", series:2, thumb:"https://via.placeholder.com/600x800/222/fff?text=S2+CH1", pages:["https://via.placeholder.com/1200x1600/eee/111?text=S2+1"] },
+    ];
 
     let currentIndex = 0;
     let currentSpread = 0;
@@ -274,18 +247,13 @@
     }
 
     function renderRecent() {
-  const recent = chapters[chapters.length - 1];
-  const recentIndex = chapters.length - 1;
-  document.getElementById('recent-grid').innerHTML = `
-    <center><div class="recent-single" onclick="startReading(${recentIndex})">
-      <img src="${recent.thumb}" alt="${recent.title}">
-      <div class="recent-info">
-        <span class="chapter-name">${recent.title}</span>
-        <span class="read-btn">Read Now →</span>
-      </div>
-    </div></center>
-  `;
-}
+      document.getElementById('recent-grid').innerHTML = chapters.map((ch, i) => `
+        <div class="chapter-card" onclick="startReading(${i})">
+          <img src="${ch.thumb}" alt="${ch.title}">
+          <h3>${ch.title}</h3>
+        </div>
+      `).join('');
+    }
 
     function renderAllChapters(filtered = chapters) {
       document.getElementById('all-chapters-grid').innerHTML = filtered.map((ch, i) => `
