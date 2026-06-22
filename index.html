@@ -2,16 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Comic Archive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>SPACE COP</title>
   <style>
     :root { --accent: #e69039; }
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       background: #0f0f0f;
       color: #eee;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
+
+    /* ========== HEADER ========== */
     header {
       background: #111;
       padding: 1rem 2rem;
@@ -22,12 +25,24 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      flex-wrap: wrap;
     }
-    .logo { height: 70px; width: 70px; border: 3px solid var(--accent); border-radius: 12px; object-fit: contain; }
-    h1 { font-size: 2.4rem; font-weight: 900; letter-spacing: -1px; }
+   .logo {
+      height: 70px; width: 70px;
+      border: 3px solid var(--accent);
+      border-radius: 12px;
+      object-fit: contain;
+    }
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      cursor: pointer;
+    }
 
-    .nav { margin-left: auto; display: flex; gap: 1rem; flex-wrap: wrap; }
+    /* Hide header when reader is open */
+    body.reader-open header,
+    body.reader-open footer { display: none; }
+
     button {
       background: #222;
       color: #eee;
@@ -38,61 +53,63 @@
       font-weight: bold;
       font-size: 1rem;
     }
-    .recent-single {
-  display: flex;
-  gap: 1.5rem;
-  background: #1a1a1a;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid #333;
-  cursor: pointer;
-  max-width: 500px;
-  transition: border-color 0.2s;
-}
-.recent-single:hover { border-color: var(--accent); }
-.recent-single img { width: 120px; height: 160px; object-fit: cover; flex-shrink: 0; }
-.recent-info { padding: 1rem; display: flex; flex-direction: column; justify-content: center; gap: 0.6rem; }
-.chapter-name { font-size: 1.1rem; font-weight: 800; }
-.read-btn { display: inline-block; background: var(--accent); color: white; padding: 6px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; width: fit-content; }
     button:hover { background: var(--accent); color: white; }
 
-    .page { display: none; }
-    .active { display: block; }
+   .page { display: none; }
+   .page.active { display: block; }
 
-    .hero { text-align: center; padding: 5rem 1rem 3rem; background: linear-gradient(to bottom, #1a1a1a, #0f0f0f); }
-    .section { padding: 3rem 2rem; max-width: 1300px; margin: 0 auto; }
-
-    .chapter-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 2rem;
+   .hero {
+      text-align: center;
+      padding: 5rem 1rem 3rem;
+      background: linear-gradient(to bottom, #1a1a1a, #0f0f0f);
     }
-    .chapter-card {
+
+   .section {
+      padding: 3rem 2rem;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* ========== HOME GRID ========== */
+   .recent-single {
+      display: flex;
+      gap: 1.5rem;
       background: #1a1a1a;
       border-radius: 12px;
       overflow: hidden;
-      cursor: pointer;
-      transition: all 0.3s;
       border: 1px solid #333;
+      cursor: pointer;
+      max-width: 500px;
+      margin: 0 auto;
+      transition: border-color 0.2s;
     }
-    .chapter-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 30px rgba(230, 144, 57, 0.4);
-      border-color: var(--accent);
+   .recent-single:hover { border-color: var(--accent); }
+   .recent-single img { width: 120px; height: 160px; object-fit: cover; flex-shrink: 0; }
+   .recent-info {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.6rem;
     }
-    .chapter-card img {
-      width: 100%;
-      height: 340px;
-      object-fit: cover;
+   .chapter-name { font-size: 1.1rem; font-weight: 800; }
+   .read-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      width: fit-content;
     }
-    .chapter-card h3 { padding: 1rem; text-align: center; font-size: 1.15rem; }
 
-    .title-cards {
+   .title-cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
     }
-    .title-card {
+   .title-card {
       background: #222;
       border-radius: 12px;
       padding: 1rem;
@@ -101,73 +118,56 @@
       cursor: pointer;
       border: 1px solid #333;
     }
-    .title-card:hover { transform: scale(1.05); border-color: var(--accent); }
-    .title-card img {
+   .title-card:hover { transform: scale(1.05); border-color: var(--accent); }
+   .title-card img {
       width: 100%;
       height: 280px;
       object-fit: cover;
       border-radius: 8px;
     }
 
-    /* ==================== READER PAGE ==================== */
-    #reader-page {
-      display: none !important;
-      flex-direction: column;
-      height: 100vh;
-      background: #0a0a0a;
-    }
-    #reader-page.active {
-      display: flex !important;
-    }
-    .reader-header {
-      padding: 1rem 2rem;
-      background: #111;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      border-bottom: 3px solid #333;
-      flex-wrap: wrap;
-    }
-    .pages-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      padding: 20px;
-      overflow: auto;
-      background: #050505;
-    }
-    .comic-page {
-      max-height: 94vh;
-      box-shadow: 0 0 40px rgba(0,0,0,0.95);
-      background: white;
-      cursor: pointer;
-    }
-    .controls {
-      background: #111;
-      padding: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      border-top: 3px solid #333;
-    }
-    .page-info { 
-      font-size: 1.5rem; 
-      font-weight: bold; 
-      min-width: 220px; 
+    footer {
       text-align: center;
-      padding: 8px 16px;
-      background: #1a1a1a;
-      border-radius: 8px;
+      padding: 2rem;
+      color: #666;
+      font-size: 0.9rem;
     }
 
-    @media (max-width: 900px) {
-      .pages-container { flex-direction: column; gap: 8px; }
-      .comic-page { max-width: 100%; height: auto; }
+    /* ========== MINIMAL FULLSCREEN READER ========== */
+    #reader-page {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 9999;
+      overflow: hidden;
     }
+
+    #reader-page.active {
+      display: block;
+    }
+
+   .reader-img {
+      width: 100vw;
+      height: 100dvh;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      user-select: none;
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
+    }
+
+   .tap-zone {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 33.33%;
+      z-index: 10;
+    }
+    #tap-left { left: 0; }
+    #tap-right { right: 0; }
+
   </style>
 </head>
 <body>
@@ -175,212 +175,154 @@
   <!-- HEADER -->
   <header>
     <img src="https://via.placeholder.com/70x70/222/fff?text=LOGO" alt="Logo" class="logo">
-	<h1 style="cursor:pointer;" onclick="showPage('home')">SPACE COP</h1>    <!--<div class="nav">
-      <button onclick="showPage('chapters')">All Chapters</button>
-    </div>-->
+    <h1 onclick="showPage('home')">SPACE COP</h1>
   </header>
-
 
   <!-- HOME PAGE -->
   <div id="home" class="page active">
     <section class="hero">
       <h2>Welcome</h2>
-      <!--<p>A personal independent Manga</p>-->
     </section>
 
     <section class="section">
       <h2 style="margin-bottom: 1.5rem; text-align:center;">New</h2>
-      <div class="chapter-grid" id="recent-grid"></div>
+      <div id="recent-grid"></div>
     </section>
 
-    <section class="section titles">
+    <section class="section">
       <h2 style="margin-bottom: 1.5rem; text-align:center;">Series</h2>
       <div class="title-cards">
-        <div class="title-card" onclick="filterBySeries(1)">
-          <img src="https://via.placeholder.com/600x400/333/fff?text=SERIES+1" alt="Series 1">
-          <h3 style="margin-top: 1rem;">"Chapter 1"</h3>
-        </div>
-        <div class="title-card" onclick="filterBySeries(2)">
-          <img src="https://via.placeholder.com/600x400/333/fff?text=SERIES+2" alt="Series 2">
-          <h3 style="margin-top: 1rem;">Series Title Two</h3>
+        <div class="title-card" onclick="startReading(0)">
+          <img src="1824.jpg" alt="Chapter 1">
+          <h3 style="margin-top: 1rem;">Chapter 1</h3>
         </div>
       </div>
     </section>
   </div>
 
-<footer>
-  <center><p>© 2026 Space Cop. All rights reserved.</p></center>
-</footer>
-  <!-- ALL CHAPTERS PAGE 
+  <footer>
+    <p>© 2026 Space Cop. All rights reserved.</p>
+  </footer>
 
-  <!-- ALL CHAPTERS PAGE -->
-  <div id="chapters" class="page">
-    <div class="section">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
-        <h2>All Chapters</h2>
-        <button onclick="showAllChapters()">Show All</button>
-        <h2 id="chapters-title">Chapters</h2>
-        <button onclick="showPage('home')">← Back</button>
-      </div>
-      <div class="chapter-grid" id="all-chapters-grid"></div>
-    </div>
-  </div>-->
-  </div>
-
-  <!-- READER PAGE -->
+  <!-- MINIMAL READER -->
   <div id="reader-page">
-    <div class="reader-header">
-      <button onclick="exitReader()">← Top</button>
-      <h2 id="reader-chapter-title" style="flex:1;">Chapter Title</h2>
-    </div>
-
-    <div class="pages-container" id="reader-pages-container"></div>
-
-    <div class="controls">
-      <button onclick="prevSpread()">← Prev</button>
-      <button onclick="nextSpread()">Next →</button>
-    </div>
+    <img id="reader-img" class="reader-img" alt="Page" />
+    <div id="tap-left" class="tap-zone"></div>
+    <div id="tap-right" class="tap-zone"></div>
   </div>
 
   <script>
     const chapters = [
-  {
-    id: 1,
-    title: "Chapter 1",
-    series: 1,
-    thumb: "1824.jpg",
-    pages: [
-      "1814.jpg","1815.jpg","1816.jpg","1817.jpg",
-      "1818.jpg","1819.jpg","1820.jpg","1821.jpg",
-      "1822.jpg","1823.jpg","1824.jpg","1825.jpg",
-      "1826.jpg","1827.jpg","1828.jpg","1829.jpg"
-    ]
-  },
-];
+      {
+        id: 1,
+        title: "Chapter 1",
+        series: 1,
+        thumb: "1824.jpg",
+        pages: [
+          "1814.jpg","1815.jpg","1816.jpg","1817.jpg",
+          "1818.jpg","1819.jpg","1820.jpg","1821.jpg",
+          "1822.jpg","1823.jpg","1824.jpg","1825.jpg",
+          "1826.jpg","1827.jpg","1828.jpg","1829.jpg"
+        ]
+      },
+    ];
 
     let currentIndex = 0;
-    let currentSpread = 0;
+    let currentPage = 0;
+    let touchStartX = 0;
 
     function showPage(pageId) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById('reader-page').classList.remove('active');
-      const page = document.getElementById(pageId);
-      page.classList.add('active');
+      document.getElementById(pageId).classList.add('active');
+      window.scrollTo(0, 0);
     }
 
     function renderRecent() {
-  const recent = chapters[chapters.length - 1];
-  const recentIndex = chapters.length - 1;
-  document.getElementById('recent-grid').innerHTML = `
-    <center><div class="recent-single" onclick="startReading(${recentIndex})">
-      <img src="${recent.thumb}" alt="${recent.title}">
-      <div class="recent-info">
-        <span class="chapter-name">${recent.title}</span>
-        <span class="read-btn">Read Now →</span>
-      </div>
-    </div></center>
-  `;
-}
-
-    function renderAllChapters(filtered = chapters) {
-      document.getElementById('all-chapters-grid').innerHTML = filtered.map((ch, i) => `
-        <div class="chapter-card" onclick="startReading(${chapters.indexOf(ch)})">
-          <img src="${ch.thumb}" alt="${ch.title}">
-          <h3>${ch.title}</h3>
+      const recent = chapters[chapters.length - 1];
+      const recentIndex = chapters.length - 1;
+      document.getElementById('recent-grid').innerHTML = `
+        <div class="recent-single" onclick="startReading(${recentIndex})">
+          <img src="${recent.thumb}" alt="${recent.title}">
+          <div class="recent-info">
+            <span class="chapter-name">${recent.title}</span>
+            <span class="read-btn">Read Now →</span>
+          </div>
         </div>
-      `).join('');
-    }
-
-    function filterBySeries(seriesId) {
-      const filtered = chapters.filter(ch => ch.series === seriesId);
-      renderAllChapters(filtered);
-      const seriesNames = { 1: 'Series 1', 2: 'Series 2' };
-      document.getElementById('chapters-title').textContent = seriesNames[seriesId] || 'Chapters';
-      showPage('chapters');
-    }
-
-    function showAllChapters() {
-      renderAllChapters(chapters);
-      document.getElementById('chapters-title').textContent = 'All Chapters';
-      showPage('chapters');
+      `;
     }
 
     function startReading(index) {
       currentIndex = index;
-      currentSpread = 0;
-      const ch = chapters[index];
-      document.getElementById('reader-chapter-title').textContent = ch.title;
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      currentPage = 0;
       document.getElementById('reader-page').classList.add('active');
-      renderCurrentSpread();
+      document.body.classList.add('reader-open');
+      showPageImage();
     }
 
     function exitReader() {
-      showPage('home');
+      document.getElementById('reader-page').classList.remove('active');
+      document.body.classList.remove('reader-open');
     }
 
-    function renderCurrentSpread() {
+    function showPageImage() {
       const ch = chapters[currentIndex];
-      const container = document.getElementById('reader-pages-container');
-      container.innerHTML = '';
-
-      const start = currentSpread;
-      const toShow = Math.min(2, ch.pages.length - start);
-
-      // Add images in reverse order so right page (first) appears on the left
-      for (let i = toShow - 1; i >= 0; i--) {
-        const img = document.createElement('img');
-        img.src = ch.pages[start + i];
-        img.className = 'comic-page';
-        img.onclick = nextSpread;
-        container.appendChild(img);
-      }
-
-      document.getElementById('reader-page-counter').textContent = `${start+1} — ${start+toShow} / ${ch.pages.length}`;
+      const img = document.getElementById('reader-img');
+      img.src = ch.pages[currentPage];
     }
 
-    function nextSpread() {
+    function nextPage() {
       const ch = chapters[currentIndex];
-      if (currentSpread + 2 < ch.pages.length) currentSpread += 2;
-      else if (currentSpread + 1 < ch.pages.length) currentSpread += 1;
-      else { nextChapter(); return; }
-      renderCurrentSpread();
-    }
-
-    function prevSpread() {
-      currentSpread = Math.max(0, currentSpread - 2);
-      renderCurrentSpread();
-    }
-
-    function nextChapter() {
-      if (currentIndex < chapters.length - 1) {
-        currentIndex++;
-        currentSpread = 0;
-        document.getElementById('reader-chapter-title').textContent = chapters[currentIndex].title;
-        renderCurrentSpread();
+      if (currentPage < ch.pages.length - 1) {
+        currentPage++;
+        showPageImage();
+      } else {
+        exitReader(); // end of chapter = exit. Change to nextChapter() if you want auto-advance
       }
     }
 
-    function prevChapter() {
-      if (currentIndex > 0) {
-        currentIndex--;
-        currentSpread = 0;
-        document.getElementById('reader-chapter-title').textContent = chapters[currentIndex].title;
-        renderCurrentSpread();
+    function prevPage() {
+      if (currentPage > 0) {
+        currentPage--;
+        showPageImage();
       }
     }
 
-    // Keyboard support
+    // Tap zones
+    document.getElementById('tap-left').onclick = prevPage;
+    document.getElementById('tap-right').onclick = nextPage;
+
+    // Tap center to exit
+    document.getElementById('reader-img').onclick = (e) => {
+      const x = e.clientX;
+      const w = window.innerWidth;
+      if (x > w * 0.33 && x < w * 0.66) exitReader();
+    };
+
+    // Swipe support
+    const reader = document.getElementById('reader-page');
+    reader.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+    }, {passive: true});
+
+    reader.addEventListener('touchend', e => {
+      let touchEndX = e.changedTouches[0].clientX;
+      let diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) nextPage(); // swipe left = next
+        else prevPage(); // swipe right = prev
+      }
+    }, {passive: true});
+
+    // Keyboard
     document.addEventListener('keydown', e => {
       if (!document.getElementById('reader-page').classList.contains('active')) return;
-      if (e.key === 'ArrowRight') nextSpread();
-      if (e.key === 'ArrowLeft') prevSpread();
+      if (e.key === 'ArrowRight' || e.key === ' ') nextPage();
+      if (e.key === 'ArrowLeft') prevPage();
       if (e.key === 'Escape') exitReader();
     });
 
-    // Initialize
+    // Init
     renderRecent();
-    renderAllChapters();
     showPage('home');
   </script>
 </body>
