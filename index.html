@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -154,13 +154,13 @@
       justify-content: center;
       align-items: center;
       gap: 4px;
-      padding: 20px;
+      padding: 10px;
       overflow: auto;
       background: #050505;
     }
     .comic-page {
-      max-width: 100%;
-      max-height: 100%;
+      max-width: 90vw;
+      max-height: 85vh;
       box-shadow: 0 0 40px rgba(0,0,0,0.95);
       background: white;
       cursor: pointer;
@@ -168,14 +168,15 @@
     }
     .controls {
       background: #111;
-      padding: 1.5rem;
+      padding: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 1.5rem;
+      gap: 1rem;
       flex-wrap: wrap;
       border-top: 3px solid #333;
       flex-shrink: 0;
+      flex-direction: row-reverse;
     }
     .page-info { 
       font-size: 1.5rem; 
@@ -188,8 +189,26 @@
     }
 
     @media (max-width: 900px) {
-      .pages-container { flex-direction: column; gap: 4px; }
-      .comic-page { max-width: 100%; height: auto; }
+      .pages-container { 
+        flex-direction: column; 
+        gap: 4px;
+        padding: 5px;
+        margin-top: 10px;
+      }
+      .comic-page { 
+        max-width: 100%; 
+        max-height: 70vh;
+        height: auto; 
+      }
+      .controls {
+        flex-direction: row-reverse;
+        gap: 0.5rem;
+        padding: 0.75rem;
+      }
+      .controls button {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
@@ -256,8 +275,8 @@
     <div class="pages-container" id="reader-pages-container"></div>
     
     <div class="controls">
-      <button onclick="prevSpread()">← Prev</button>
       <button onclick="nextSpread()">Next →</button>
+      <button onclick="prevSpread()">← Prev</button>
     </div>
   </div>
 
@@ -392,8 +411,8 @@
     // Keyboard support
     document.addEventListener('keydown', e => {
       if (!document.getElementById('reader-page').classList.contains('active')) return;
-      if (e.key === 'ArrowRight') nextSpread();
-      if (e.key === 'ArrowLeft') prevSpread();
+      if (e.key === 'ArrowRight') prevSpread();
+      if (e.key === 'ArrowLeft') nextSpread();
       if (e.key === 'Escape') exitReader();
     });
 
