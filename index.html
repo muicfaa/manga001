@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Manga</title>
+  <title>EGG-SAPIEN(半卵人</title>
   <style>
     :root { --accent: #e69039; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -229,10 +229,10 @@
   </div>
  
   <footer>
-    <p>© Hisashi 2025. All rights reserved.</p>
+    <p>© HH 2026. All rights reserved.</p>
   </footer>
  
-  <!-- READER 
+  <!-- READER -->
   <div id="reader-page">
  
     <div class="reader-header">
@@ -249,110 +249,143 @@
       <button class="reader-nav-btn" onclick="prevPage()">Back →</button>
     </div>
  
-  </div> -->
-
-<!-- READER -->
-<div id="reader-page" style="display:none; position:fixed; inset:0; background:#000; z-index:9999; flex-direction:column;">
-  <div style="background:#111; border-bottom:3px solid #e69039; padding:0.8rem 1rem; display:flex; align-items:center; gap:1rem; flex-shrink:0; position:relative;">
-    <img src="icon1.jpg" alt="Logo" style="height:50px; width:50px; border:3px solid #e69039; border-radius:8px; cursor:pointer;" onclick="exitReader()">
-    <h1 onclick="exitReader(); showPage('home');" style="font-size:2rem; cursor:pointer;">MANGA</h1>
-    <div style="margin-left:auto; color:#888; font-size:0.95rem;" id="page-counter">1 / 14</div>
-    <div id="progress-bar" style="position:absolute; bottom:-3px; left:0; height:3px; background:#e69039; width:0%; transition:width 0.2s;"></div>
   </div>
-
-  <div onclick="nextPage()" style="flex:1; display:flex; justify-content:center; align-items:center; overflow:hidden; background:#000; cursor:pointer;">
-    <img id="reader-img" style="max-width:100%; max-height:100%; object-fit:contain;" alt="Manga Page">
-  </div>
-
-  <div style="display:flex; background:#111; border-top:2px solid #222;">
-    <button onclick="nextPage()" style="flex:1; padding:18px; background:#111; border:none; color:#aaa; font-size:1.1rem;">← Next</button>
-        <div style="width:1px; background:#222;"></div>
-    <button onclick="prevPage()" style="flex:1; padding:18px; background:#111; border:none; color:#aaa; font-size:1.1rem;">Back →</button>
-
-  </div>
-</div>
-  
-  
+ 
   <script>
     // ============================================================
     //  YOUR DATA — only edit this when adding new chapters
     // ============================================================
     const chapters = [
-    {
-      id: 1,
-      title: "第一話：サービスショットあり",
-      series: 1,
-      thumb: "icon2.jpg",
-      pages: Array.from({length: 14}, (_, i) => `${i+1}.jpg`)
+      {
+        id: 1,
+        title: "第一話：サービスショットあり",
+        series: 1,
+        thumb: "icon2.jpg",
+        pages: [
+          "1.jpg","2.jpg","3.jpg","4.jpg",
+          "5.jpg","6.jpg",
+          "7.jpg","8.jpg","9.jpg","10.jpg",
+          "11.jpg","12.jpg","13.jpg","14.jpg"
+        ]
+      },
+     
+    ];
+    // ============================================================
+ 
+    let currentIndex = 0;
+    let currentPage  = 0;
+ 
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      window.scrollTo(0, 0);
     }
-    // Add more chapters here later like:
-    // {
-    //   id: 2,
-    //   title: "第二話：...",
-    //   series: 1,
-    //   thumb: "icon3.jpg",
-    //   pages: Array.from({length: 20}, (_, i) => `${i + 15}.jpg`)
-    // }
-  ];
-
-  let currentChapterIndex = 0;
-  let currentPage = 0;
-
-  function startReading(chapterIndex) {
-    currentChapterIndex = chapterIndex;
-    currentPage = 0;
-    document.getElementById('reader-page').style.display = 'flex';
-    loadCurrentPage();
-  }
-
-  function exitReader() {
-    document.getElementById('reader-page').style.display = 'none';
-  }
-
-  function loadCurrentPage() {
-    const chapter = chapters[currentChapterIndex];
-    if (!chapter) return;
-
-    document.getElementById('reader-img').src = chapter.pages[currentPage];
-    document.getElementById('page-counter').textContent = `${currentPage + 1} / ${chapter.pages.length}`;
-    document.getElementById('progress-bar').style.width = `${((currentPage + 1) / chapter.pages.length) * 100}%`;
-
-    // Preload next
-    if (currentPage + 1 < chapter.pages.length) {
-      const pre = new Image();
-      pre.src = chapter.pages[currentPage + 1];
+ 
+    function renderRecent() {
+      const recent = chapters[chapters.length - 1];
+      const recentIndex = chapters.length - 1;
+      document.getElementById('recent-grid').innerHTML = `
+        <div class="recent-single" onclick="startReading(${recentIndex})">
+          <img src="${recent.thumb}" alt="${recent.title}">
+          <div class="recent-info">
+            <span class="chapter-name">${recent.title}</span>
+            <span class="read-btn">Read Now →</span>
+          </div>
+        </div>
+      `;
     }
-  }
-
-  function nextPage() {
-    const chapter = chapters[currentChapterIndex];
-    if (currentPage < chapter.pages.length - 1) {
-      currentPage++;
-      loadCurrentPage();
-    } else {
-      exitReader();
+ 
+    function filterBySeries(seriesId) {
+  const filtered = chapters.filter(ch => ch.series === seriesId);
+  document.getElementById('all-chapters-grid').innerHTML = filtered.map(ch => {
+    const i = chapters.indexOf(ch);
+    return `
+      <div class="title-card" onclick="startReading(${i})">
+        <img src="${ch.thumb}" alt="${ch.title}">
+        <h3 style="margin-top:1rem;">${ch.title}</h3>
+      </div>
+    `;
+  }).join('');
+  showPage('chapters');
+  history.pushState({ page: 'chapters' }, '');
+}
+ 
+    function startReading(index) {
+      currentIndex = index;
+      currentPage  = 0;
+      document.getElementById('reader-page').classList.add('active');
+      showPageImage();
+      history.pushState({ reader: true, page: 0 }, '');
     }
-  }
-
-  function prevPage() {
-    if (currentPage > 0) {
-      currentPage--;
-      loadCurrentPage();
-    } else {
-      exitReader();
+ 
+    function exitReader() {
+      document.getElementById('reader-page').classList.remove('active');
     }
-  }
+ 
+    function showPageImage() {
+  const ch = chapters[currentIndex];
+  const img = document.getElementById('reader-img');
 
-  // Japanese style keyboard
-  document.addEventListener('keydown', e => {
-    if (document.getElementById('reader-page').style.display !== 'flex') return;
-    if (e.key === 'ArrowLeft' || e.key === ' ') nextPage();
-    if (e.key === 'ArrowRight') prevPage();
-    if (e.key === 'Escape') exitReader();
+  // flash buttons orange
+  document.querySelectorAll('.reader-nav-btn').forEach(btn => {
+    btn.style.color = 'var(--accent)';
+    btn.style.background = '#1e1e1e';
   });
 
-  // Make sure your chapter thumbnails call the right function
-  // Example: onclick="startReading(0)" for first chapter
+  img.src = ch.pages[currentPage];
+
+  // reset buttons when image finishes loading
+  img.onload = () => {
+    document.querySelectorAll('.reader-nav-btn').forEach(btn => {
+      btn.style.color = '';
+      btn.style.background = '';
+    });
+  };
+
+  // preload next page
+  if (currentPage + 1 < ch.pages.length) {
+    const preload = new Image();
+    preload.src = ch.pages[currentPage + 1];
+  }
+}
+ 
+    function nextPage() {
+      const ch = chapters[currentIndex];
+      if (currentPage < ch.pages.length - 1) {
+        currentPage++;
+        showPageImage();
+        history.pushState({ reader: true, page: currentPage }, '');
+      } else {
+        history.back(); // end of chapter → back to chapters list
+      }
+    }
+ 
+    function prevPage() {
+  history.back();
+}
+ 
+    // Browser back button
+    window.addEventListener('popstate', () => {
+  if (document.getElementById('reader-page').classList.contains('active')) {
+    if (currentPage > 0) {
+      currentPage--;
+      showPageImage();
+    } else {
+      exitReader();
+    }
+  } else if (document.getElementById('chapters').classList.contains('active')) {
+    showPage('home');
+  }
+});
+ 
+    // Keyboard
+    document.addEventListener('keydown', e => {
+      if (!document.getElementById('reader-page').classList.contains('active')) return;
+      if (e.key === 'ArrowLeft' || e.key === ' ') nextPage();
+      if (e.key === 'ArrowRight') prevPage();
+      if (e.key === 'Escape') history.back();
+    });
+ 
     // Init
     renderRecent();
     showPage('home');
