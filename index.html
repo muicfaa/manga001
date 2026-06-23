@@ -150,7 +150,7 @@
  
   <!-- HEADER -->
   <header>
-    <img src="https://via.placeholder.com/70x70/222/fff?text=LOGO" alt="Logo" class="logo">
+    <img src="1827.jpg?text=LOGO" alt="Logo" class="logo">
     <h1 onclick="showPage('home')">SPACE COP</h1>
   </header>
  
@@ -199,7 +199,7 @@
         thumb: "1814.jpg",
         pages: [
           "1814.jpg","1815.jpg","1816.jpg","1817.jpg",
-          "1819.jpg","1820.jpg","1821.jpg",
+          "1820.jpg","1821.jpg",
           "1822.jpg","1823.jpg","1824.jpg","1825.jpg",
           "1826.jpg","1827.jpg","1828.jpg","1829.jpg"
         ]
@@ -249,24 +249,28 @@
     }
  
     function nextPage() {
-      const ch = chapters[currentIndex];
-      if (currentPage < ch.pages.length - 1) {
-        currentPage++;
-        showPageImage();
-      } else {
-        history.back(); // triggers popstate → exitReader
-      }
-    }
+  const ch = chapters[currentIndex];
+  if (currentPage < ch.pages.length - 1) {
+    currentPage++;
+    showPageImage();
+    history.pushState({ reader: true, page: currentPage }, '');
+  } else {
+    history.back();
+  }
+}
  
     // Click anywhere = next page
     document.getElementById('reader-page').onclick = nextPage;
  
     // Browser back button = exit reader
-    window.addEventListener('popstate', () => {
+    window.addEventListener('popstate', (e) => {
   if (document.getElementById('reader-page').classList.contains('active')) {
-    exitReader();
-  } else {
-    history.back();
+    if (currentPage > 0) {
+      currentPage--;
+      showPageImage();
+    } else {
+      exitReader();
+    }
   }
 });
  
