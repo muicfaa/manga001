@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>SPACE COP</title>
+  <title>EGG-SAPIEN(半卵人)</title>
   <style>
     :root { --accent: #e69039; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -237,8 +237,7 @@
  
     <div class="reader-header">
       <img src="https://via.placeholder.com/70x70/222/fff?text=LOGO" alt="Logo" class="logo" onclick="history.back()">
-      <h1 onclick="history.back()">SPACE COP</h1>
-    </div>
+        <h1 onclick="exitReader(); showPage('home');">DROP THE EGG</h1>    </div>
  
     <div class="reader-img-wrap" onclick="nextPage()">
       <img id="reader-img" class="reader-img" alt="Page" />
@@ -322,14 +321,31 @@
     }
  
     function showPageImage() {
-      const ch = chapters[currentIndex];
-      document.getElementById('reader-img').src = ch.pages[currentPage];
-      // preload next page
-      if (currentPage + 1 < ch.pages.length) {
-        const preload = new Image();
-        preload.src = ch.pages[currentPage + 1];
-      }
-    }
+  const ch = chapters[currentIndex];
+  const img = document.getElementById('reader-img');
+
+  // flash buttons orange
+  document.querySelectorAll('.reader-nav-btn').forEach(btn => {
+    btn.style.color = 'var(--accent)';
+    btn.style.background = '#1e1e1e';
+  });
+
+  img.src = ch.pages[currentPage];
+
+  // reset buttons when image finishes loading
+  img.onload = () => {
+    document.querySelectorAll('.reader-nav-btn').forEach(btn => {
+      btn.style.color = '';
+      btn.style.background = '';
+    });
+  };
+
+  // preload next page
+  if (currentPage + 1 < ch.pages.length) {
+    const preload = new Image();
+    preload.src = ch.pages[currentPage + 1];
+  }
+}
  
     function nextPage() {
       const ch = chapters[currentIndex];
