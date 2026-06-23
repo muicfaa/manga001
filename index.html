@@ -230,7 +230,7 @@
   </div>
  
   <footer>
-    <p>© HH 2026. All rights reserved.</p>
+    <p>© Hisashi 2025. All rights reserved.</p>
   </footer>
  
   <!-- READER -->
@@ -259,16 +259,12 @@
     const chapters = [
       {
         id: 1,
-        title: "第一話：サービスショットあり",
+        title: "第一話：お色気シーンあり",
         series: 1,
         thumb: "icon2.jpg",
-        pages: [
-          "1.jpg","2.jpg","3.jpg","4.jpg",
-          "5.jpg","6.jpg",
-          "7.jpg","8.jpg","9.jpg","10.jpg",
-          "11.jpg","12.jpg","13.jpg","14.jpg"
-        ]
+        pages: Array.from({length: 14}, (_, i) => `${i+1}.jpg`) 
       },
+    // add more...
      
     ];
     // ============================================================
@@ -351,13 +347,16 @@
 }
  
     function nextPage() {
+      document.getElementById('btn-next').style.color = 'var(--accent)';
+      document.getElementById('btn-next').style.background = '#1e1e1e';
       const ch = chapters[currentIndex];
       if (currentPage < ch.pages.length - 1) {
         currentPage++;
         showPageImage();
         history.pushState({ reader: true, page: currentPage }, '');
       } else {
-        history.back(); // end of chapter → back to chapters list
+         exitReader();
+         showPage('home'); // end of chapter → back to home
       }
     }
  
