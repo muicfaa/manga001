@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,6 +33,7 @@
       border: 3px solid var(--accent);
       border-radius: 12px;
       object-fit: contain;
+      cursor: pointer;
     }
     h1 {
       font-size: 2.4rem;
@@ -39,9 +41,6 @@
       letter-spacing: -1px;
       cursor: pointer;
     }
- 
-    body.reader-open header,
-    body.reader-open footer { display: none; }
  
     .page { display: none; }
     .page.active { display: block; }
@@ -92,7 +91,7 @@
       width: fit-content;
     }
  
-    /* ========== SERIES ========== */
+    /* ========== SERIES / CHAPTERS ========== */
     .title-cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -129,14 +128,34 @@
       inset: 0;
       background: #000;
       z-index: 9999;
+      flex-direction: column;
+    }
+    #reader-page.active { display: flex; }
+ 
+    .reader-header {
+      background: #111;
+      border-bottom: 3px solid var(--accent);
+      padding: 0.8rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-shrink: 0;
+    }
+    .reader-header .logo { height: 48px; width: 48px; }
+    .reader-header h1 { font-size: 1.6rem; }
+ 
+    .reader-img-wrap {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       overflow: hidden;
       cursor: pointer;
     }
-    #reader-page.active { display: block; }
  
     .reader-img {
-      width: 100vw;
-      height: 100dvh;
+      max-width: 100%;
+      max-height: 100%;
       object-fit: contain;
       display: block;
       user-select: none;
@@ -144,13 +163,36 @@
       -webkit-touch-callout: none;
     }
  
+    /* ========== BOTTOM NAV ========== */
+    .reader-nav {
+      display: flex;
+      background: #111;
+      border-top: 2px solid #222;
+      flex-shrink: 0;
+    }
+    .reader-nav-btn {
+      flex: 1;
+      padding: 18px 0;
+      background: #111;
+      border: none;
+      color: #aaa;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      letter-spacing: 0.03em;
+    }
+    .reader-nav-btn:hover { background: #1e1e1e; color: var(--accent); }
+    .reader-nav-btn:active { background: #252525; }
+    .nav-divider { width: 1px; background: #222; }
+ 
   </style>
 </head>
 <body>
  
   <!-- HEADER -->
   <header>
-    <img src="1827.jpg?text=LOGO" alt="Logo" class="logo">
+    <img src="https://via.placeholder.com/70x70/222/fff?text=LOGO" alt="Logo" class="logo" onclick="showPage('home')">
     <h1 onclick="showPage('home')">SPACE COP</h1>
   </header>
  
@@ -162,34 +204,52 @@
     </section>
  
     <section class="section">
-      <h2 style="margin-bottom: 1.5rem; text-align:center;">New</h2>
+      <h2 style="margin-bottom:1.5rem; text-align:center;">New</h2>
       <div id="recent-grid"></div>
     </section>
  
     <section class="section">
-      <h2 style="margin-bottom: 1.5rem; text-align:center;">Series</h2>
+      <h2 style="margin-bottom:1.5rem; text-align:center;">Series</h2>
       <div class="title-cards">
         <div class="title-card" onclick="filterBySeries(1)">
-          <img src="1814.jpg" alt="タイトル">
-          <h3 style="margin-top: 1rem;">タイトル</h3>
+          <img src="1814.jpg" alt="Space Cop">
+          <h3 style="margin-top:1rem;">Space Cop</h3>
         </div>
       </div>
     </section>
  
   </div>
- <div id="chapters" class="page">
-  <div class="section">
-    <h2 style="margin-bottom:1.5rem;">Chapters</h2>
-    <div class="title-cards" id="all-chapters-grid"></div>
+ 
+  <!-- CHAPTERS PAGE -->
+  <div id="chapters" class="page">
+    <div class="section">
+      <h2 style="margin-bottom:1.5rem;">Chapters</h2>
+      <div class="title-cards" id="all-chapters-grid"></div>
+    </div>
   </div>
-</div>
+ 
   <footer>
     <p>© 2026 Space Cop. All rights reserved.</p>
   </footer>
  
   <!-- READER -->
   <div id="reader-page">
-    <img id="reader-img" class="reader-img" alt="Page" />
+ 
+    <div class="reader-header">
+      <img src="https://via.placeholder.com/70x70/222/fff?text=LOGO" alt="Logo" class="logo" onclick="history.back()">
+      <h1 onclick="history.back()">SPACE COP</h1>
+    </div>
+ 
+    <div class="reader-img-wrap" onclick="nextPage()">
+      <img id="reader-img" class="reader-img" alt="Page" />
+    </div>
+ 
+    <div class="reader-nav">
+      <button class="reader-nav-btn" onclick="nextPage()">← Next</button>
+      <div class="nav-divider"></div>
+      <button class="reader-nav-btn" onclick="prevPage()">Back →</button>
+    </div>
+ 
   </div>
  
   <script>
@@ -199,12 +259,12 @@
     const chapters = [
       {
         id: 1,
-        title: "第一話 14P",
+        title: "Chapter 1",
         series: 1,
         thumb: "1814.jpg",
         pages: [
           "1814.jpg","1815.jpg","1816.jpg","1817.jpg",
-          "1820.jpg","1821.jpg",
+          "1818.jpg","1819.jpg","1820.jpg","1821.jpg",
           "1822.jpg","1823.jpg","1824.jpg","1825.jpg",
           "1826.jpg","1827.jpg","1828.jpg","1829.jpg"
         ]
@@ -220,23 +280,7 @@
       document.getElementById(pageId).classList.add('active');
       window.scrollTo(0, 0);
     }
- function filterBySeries(seriesId) {
-  const filtered = chapters.filter(ch => ch.series === seriesId);
-  renderChapterGrid(filtered);
-  showPage('chapters');
-}
-
-function renderChapterGrid(list) {
-  document.getElementById('all-chapters-grid').innerHTML = list.map(ch => {
-    const i = chapters.indexOf(ch);
-    return `
-      <div class="title-card" onclick="startReading(${i})">
-        <img src="${ch.thumb}" alt="${ch.title}">
-        <h3 style="margin-top:1rem;">${ch.title}</h3>
-      </div>
-    `;
-  }).join('');
-}
+ 
     function renderRecent() {
       const recent = chapters[chapters.length - 1];
       const recentIndex = chapters.length - 1;
@@ -251,63 +295,80 @@ function renderChapterGrid(list) {
       `;
     }
  
+    function filterBySeries(seriesId) {
+      const filtered = chapters.filter(ch => ch.series === seriesId);
+      document.getElementById('all-chapters-grid').innerHTML = filtered.map(ch => {
+        const i = chapters.indexOf(ch);
+        return `
+          <div class="title-card" onclick="startReading(${i})">
+            <img src="${ch.thumb}" alt="${ch.title}">
+            <h3 style="margin-top:1rem;">${ch.title}</h3>
+          </div>
+        `;
+      }).join('');
+      showPage('chapters');
+    }
+ 
     function startReading(index) {
       currentIndex = index;
       currentPage  = 0;
       document.getElementById('reader-page').classList.add('active');
-      document.body.classList.add('reader-open');
       showPageImage();
-      history.pushState({ reader: true }, '');
+      history.pushState({ reader: true, page: 0 }, '');
     }
  
     function exitReader() {
       document.getElementById('reader-page').classList.remove('active');
-      document.body.classList.remove('reader-open');
     }
  
     function showPageImage() {
-  const ch = chapters[currentIndex];
-  document.getElementById('reader-img').src = ch.pages[currentPage];
-  // preload next page in background
-  if (currentPage + 1 < ch.pages.length) {
-    const preload = new Image();
-    preload.src = ch.pages[currentPage + 1];
-  }
-}
+      const ch = chapters[currentIndex];
+      document.getElementById('reader-img').src = ch.pages[currentPage];
+      // preload next page
+      if (currentPage + 1 < ch.pages.length) {
+        const preload = new Image();
+        preload.src = ch.pages[currentPage + 1];
+      }
+    }
  
     function nextPage() {
-  const ch = chapters[currentIndex];
-  if (currentPage < ch.pages.length - 1) {
-    currentPage++;
-    showPageImage();
-    history.pushState({ reader: true, page: currentPage }, '');
-  } else {
-    history.back();
-  }
-}
- 
-    // Click anywhere = next page
-    document.getElementById('reader-page').onclick = nextPage;
- 
-    // Browser back button = exit reader
-    window.addEventListener('popstate', (e) => {
-  if (document.getElementById('reader-page').classList.contains('active')) {
-    if (currentPage > 0) {
-      currentPage--;
-      showPageImage();
-    } else {
-      exitReader();
+      const ch = chapters[currentIndex];
+      if (currentPage < ch.pages.length - 1) {
+        currentPage++;
+        showPageImage();
+        history.pushState({ reader: true, page: currentPage }, '');
+      } else {
+        history.back(); // end of chapter → back to chapters list
+      }
     }
-  }
-});
+ 
+    function prevPage() {
+      if (currentPage > 0) {
+        currentPage--;
+        showPageImage();
+        history.back();
+      } else {
+        history.back(); // first page → exit reader
+      }
+    }
+ 
+    // Browser back button
+    window.addEventListener('popstate', () => {
+      if (document.getElementById('reader-page').classList.contains('active')) {
+        if (currentPage > 0) {
+          currentPage--;
+          showPageImage();
+        } else {
+          exitReader();
+        }
+      }
+    });
  
     // Keyboard
     document.addEventListener('keydown', e => {
       if (!document.getElementById('reader-page').classList.contains('active')) return;
-      if (e.key === 'ArrowRight' || e.key === ' ') nextPage();
-      if (e.key === 'ArrowLeft') {
-        if (currentPage > 0) { currentPage--; showPageImage(); }
-      }
+      if (e.key === 'ArrowLeft' || e.key === ' ') nextPage();
+      if (e.key === 'ArrowRight') prevPage();
       if (e.key === 'Escape') history.back();
     });
  
@@ -317,4 +378,3 @@ function renderChapterGrid(list) {
   </script>
 </body>
 </html>
- 
