@@ -193,7 +193,8 @@
   <!-- HEADER -->
   <header>
     <img src="1826.jpg?text=LOGO" alt="Logo" class="logo" onclick="showPage('home')">
-    <h1 onclick="showPage('home')">SPACE COP</h1>
+    <h1 onclick="showPage('home')">Egg-Sapien and the Constipated Children
+</h1>
   </header>
  
   <!-- HOME PAGE -->
@@ -213,7 +214,7 @@
       <div class="title-cards">
         <div class="title-card" onclick="filterBySeries(1)">
           <img src="1814.jpg" alt="Space Cop">
-          <h3 style="margin-top:1rem;">Space Cop</h3>
+          <h3 style="margin-top:1rem;">Egg Sapien - Let Them Drop it</h3>
         </div>
       </div>
     </section>
@@ -359,14 +360,8 @@
     }
  
     function prevPage() {
-      if (currentPage > 0) {
-        currentPage--;
-        showPageImage();
-        history.back();
-      } else {
-        history.back(); // first page → exit reader
-      }
-    }
+  history.back();
+}
  
     // Browser back button
     window.addEventListener('popstate', () => {
