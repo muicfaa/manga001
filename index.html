@@ -192,7 +192,7 @@
  
   <!-- HEADER -->
   <header>
-    <img src="icon.jpg?text=LOGO" alt="Logo" class="logo" onclick="showPage('home')">
+    <img src="icon1.jpg?text=LOGO" alt="Logo" class="logo" onclick="showPage('home')">
     <h1 onclick="showPage('home')">MANGA
 </h1>
   </header>
@@ -237,7 +237,7 @@
   <div id="reader-page">
  
     <div class="reader-header">
-      <img src="icon.jpg?text=LOGO" alt="Logo" class="logo" onclick="history.back()">
+      <img src="icon1.jpg?text=LOGO" alt="Logo" class="logo" onclick="history.back()">
         <h1 onclick="exitReader(); showPage('home');">MANGA</h1>    </div>
  
     <div class="reader-img-wrap" onclick="nextPage()">
@@ -294,8 +294,8 @@
     }
  
     function renderRecent() {
-      const recent = chapters[0];
-      const recentIndex = 0;
+      const recent = chapters[chapters.length - 1];
+      const recentIndex = chapters.length - 1;
       document.getElementById('recent-grid').innerHTML = `
         <div class="recent-single" onclick="startReading(${recentIndex})">
           <img src="${recent.thumb}" alt="${recent.title}">
