@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>EGG-SAPIEN(半卵人)</title>
+  <title>EGG-SAPIEN(半卵人</title>
   <style>
     :root { --accent: #e69039; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -192,7 +192,7 @@
  
   <!-- HEADER -->
   <header>
-    <img src="1826.jpg?text=LOGO" alt="Logo" class="logo" onclick="showPage('home')">
+    <img src="icon.jpg?text=LOGO" alt="Logo" class="logo" onclick="showPage('home')">
     <h1 onclick="showPage('home')">MANGA
 </h1>
   </header>
@@ -213,8 +213,8 @@
       <h2 style="margin-bottom:1.5rem; text-align:center;">Series</h2>
       <div class="title-cards">
         <div class="title-card" onclick="filterBySeries(1)">
-          <img src="1814.jpg" alt="Space Cop">
-          <h3 style="margin-top:1rem;">エッグサピエンスと便秘の子どもたち</h3>
+          <img src="icon1.jpg" alt="Drop the Egg">
+          <h3 style="margin-top:1rem;">Egg-Sapien</h3>
         </div>
       </div>
     </section>
@@ -224,21 +224,21 @@
   <!-- CHAPTERS PAGE -->
   <div id="chapters" class="page">
     <div class="section">
-      <h2 style="margin-bottom:1.5rem;">Chapters</h2>
+      <h2 style="margin-bottom:1.5rem;">目次</h2>
       <div class="title-cards" id="all-chapters-grid"></div>
     </div>
   </div>
  
   <footer>
-    <p>© 2026 Space Cop. All rights reserved.</p>
+    <p>© HH 2026. All rights reserved.</p>
   </footer>
  
   <!-- READER -->
   <div id="reader-page">
  
     <div class="reader-header">
-      <img src="https://via.placeholder.com/70x70/222/fff?text=LOGO" alt="Logo" class="logo" onclick="history.back()">
-        <h1 onclick="exitReader(); showPage('home');">Episode1 便秘解消、もうすぐ中学生</h1>    </div>
+      <img src="icon.jpg?text=LOGO" alt="Logo" class="logo" onclick="history.back()">
+        <h1 onclick="exitReader(); showPage('home');">MANGA</h1>    </div>
  
     <div class="reader-img-wrap" onclick="nextPage()">
       <img id="reader-img" class="reader-img" alt="Page" />
@@ -259,7 +259,7 @@
     const chapters = [
       {
         id: 1,
-        title: "第一話はサービスショットあり",
+        title: "第一話：サービスショットあり",
         series: 1,
         thumb: "icon2.jpg",
         pages: [
@@ -271,7 +271,7 @@
       },
       {
         id: 2,
-        title: "第二話 ジャケット入手",
+        title: "第二話：ジャケット入手",
         series: 1,
         thumb: "icon2.jpg",
         pages: [
@@ -294,8 +294,8 @@
     }
  
     function renderRecent() {
-      const recent = chapters[chapters.length - 1];
-      const recentIndex = chapters.length - 1;
+      const recent = chapters[0];
+      const recentIndex = 0;
       document.getElementById('recent-grid').innerHTML = `
         <div class="recent-single" onclick="startReading(${recentIndex})">
           <img src="${recent.thumb}" alt="${recent.title}">
@@ -308,18 +308,19 @@
     }
  
     function filterBySeries(seriesId) {
-      const filtered = chapters.filter(ch => ch.series === seriesId);
-      document.getElementById('all-chapters-grid').innerHTML = filtered.map(ch => {
-        const i = chapters.indexOf(ch);
-        return `
-          <div class="title-card" onclick="startReading(${i})">
-            <img src="${ch.thumb}" alt="${ch.title}">
-            <h3 style="margin-top:1rem;">${ch.title}</h3>
-          </div>
-        `;
-      }).join('');
-      showPage('chapters');
-    }
+  const filtered = chapters.filter(ch => ch.series === seriesId);
+  document.getElementById('all-chapters-grid').innerHTML = filtered.map(ch => {
+    const i = chapters.indexOf(ch);
+    return `
+      <div class="title-card" onclick="startReading(${i})">
+        <img src="${ch.thumb}" alt="${ch.title}">
+        <h3 style="margin-top:1rem;">${ch.title}</h3>
+      </div>
+    `;
+  }).join('');
+  showPage('chapters');
+  history.pushState({ page: 'chapters' }, '');
+}
  
     function startReading(index) {
       currentIndex = index;
@@ -377,15 +378,17 @@
  
     // Browser back button
     window.addEventListener('popstate', () => {
-      if (document.getElementById('reader-page').classList.contains('active')) {
-        if (currentPage > 0) {
-          currentPage--;
-          showPageImage();
-        } else {
-          exitReader();
-        }
-      }
-    });
+  if (document.getElementById('reader-page').classList.contains('active')) {
+    if (currentPage > 0) {
+      currentPage--;
+      showPageImage();
+    } else {
+      exitReader();
+    }
+  } else if (document.getElementById('chapters').classList.contains('active')) {
+    showPage('home');
+  }
+});
  
     // Keyboard
     document.addEventListener('keydown', e => {
