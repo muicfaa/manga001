@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Low Quality Manga</title>
   <style>
     :root { --accent: #e69039; }
@@ -128,16 +128,10 @@
       background: #000;
       z-index: 9999;
       flex-direction: column;
+      overflow: hidden;
     }
     #reader-page.active { display: flex; }
  
-    #reader-page {
-    touch-action: pan-x pan-y pinch-zoom;
-    }
-    .reader-img-wrap {
-    touch-action: pan-x pan-y pinch-zoom;
-    overflow: hidden;
-    }
     .reader-header {
       background: #111;
       border-bottom: 3px solid var(--accent);
