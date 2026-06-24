@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Low Quality Manga</title>
+  <title>Manga</title>
   <style>
     :root { --accent: #e69039; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -41,6 +41,11 @@
       cursor: pointer;
     }
  
+    /* reader page hides header and footer */
+    body.reader-open header,
+    body.reader-open footer { display: none; }
+ 
+    /* ========== PAGES ========== */
     .page { display: none; }
     .page.active { display: block; }
  
@@ -120,15 +125,12 @@
       font-size: 0.9rem;
     }
  
-    /* ========== READER ========== */
+    /* ========== READER — proper page, no fixed ========== */
     #reader-page {
       display: none;
-      position: fixed;
-      inset: 0;
-      background: #000;
-      z-index: 9999;
       flex-direction: column;
-      overflow: hidden;
+      min-height: 100vh;
+      background: #000;
     }
     #reader-page.active { display: flex; }
  
@@ -139,7 +141,9 @@
       display: flex;
       align-items: center;
       gap: 1rem;
-      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
     .reader-header .logo { height: 48px; width: 48px; }
     .reader-header h1 { font-size: 1.6rem; }
@@ -148,15 +152,15 @@
       flex: 1;
       display: flex;
       justify-content: center;
-      align-items: center;
-      overflow: hidden;
+      align-items: flex-start;
       cursor: pointer;
+      background: #000;
     }
  
     .reader-img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+      width: 100%;
+      max-width: 800px;
+      height: auto;
       display: block;
       user-select: none;
       -webkit-user-drag: none;
@@ -168,7 +172,9 @@
       display: flex;
       background: #111;
       border-top: 2px solid #222;
-      flex-shrink: 0;
+      position: sticky;
+      bottom: 0;
+      z-index: 100;
     }
     .reader-nav-btn {
       flex: 1;
@@ -192,9 +198,8 @@
  
   <!-- HEADER -->
   <header>
-    <img src="icon1.jpg?text=LOGO" alt="Logo" class="logo" onclick="showPage('home')">
-    <h1 onclick="showPage('home')">MANGA
-</h1>
+    <img src="icon1.jpg" alt="Logo" class="logo" onclick="showPage('home')">
+    <h1 onclick="showPage('home')">MANGA</h1>
   </header>
  
   <!-- HOME PAGE -->
@@ -213,7 +218,7 @@
       <h2 style="margin-bottom:1.5rem; text-align:center;">Series</h2>
       <div class="title-cards">
         <div class="title-card" onclick="filterBySeries(1)">
-          <img src="icon1.jpg" alt="Drop the Egg">
+          <img src="icon1.jpg" alt="Egg-Sapien">
           <h3 style="margin-top:1rem;">Egg-Sapien</h3>
         </div>
       </div>
@@ -230,24 +235,25 @@
   </div>
  
   <footer>
-    <p>© HH 2026. All rights reserved.</p>
+    <p>© HH 2025. All rights reserved.</p>
   </footer>
  
-  <!-- READER -->
+  <!-- READER — now a proper page in the flow -->
   <div id="reader-page">
  
     <div class="reader-header">
-      <img src="icon1.jpg?text=LOGO" alt="Logo" class="logo" onclick="history.back()">
-        <h1 onclick="exitReader(); showPage('home');">MANGA</h1>    </div>
+      <img src="icon1.jpg" alt="Logo" class="logo" onclick="showPage('home')">
+      <h1 onclick="exitReader(); showPage('home');">MANGA</h1>
+    </div>
  
     <div class="reader-img-wrap" onclick="nextPage()">
       <img id="reader-img" class="reader-img" alt="Page" />
     </div>
  
     <div class="reader-nav">
-      <button class="reader-nav-btn" onclick="nextPage()">← Next</button>
+      <button class="reader-nav-btn" id="btn-next" onclick="nextPage()">← Next</button>
       <div class="nav-divider"></div>
-      <button class="reader-nav-btn" onclick="prevPage()">Back →</button>
+      <button class="reader-nav-btn" id="btn-prev" onclick="prevPage()">Back →</button>
     </div>
  
   </div>
@@ -264,12 +270,11 @@
         thumb: "icon2.jpg",
         pages: [
           "1.jpg","2.jpg","3.jpg","4.jpg",
-          "5.jpg","6.jpg",
-          "7.jpg","8.jpg","9.jpg","10.jpg",
-          "11.jpg","12.jpg","13.jpg","14.jpg"
+          "5.jpg","6.jpg","7.jpg","8.jpg",
+          "9.jpg","10.jpg","11.jpg","12.jpg",
+          "13.jpg","14.jpg"
         ]
       },
-     
     ];
     // ============================================================
  
@@ -278,6 +283,8 @@
  
     function showPage(pageId) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('reader-page').classList.remove('active');
+      document.body.classList.remove('reader-open');
       document.getElementById(pageId).classList.add('active');
       window.scrollTo(0, 0);
     }
@@ -297,58 +304,63 @@
     }
  
     function filterBySeries(seriesId) {
-  const filtered = chapters.filter(ch => ch.series === seriesId);
-  document.getElementById('all-chapters-grid').innerHTML = filtered.map(ch => {
-    const i = chapters.indexOf(ch);
-    return `
-      <div class="title-card" onclick="startReading(${i})">
-        <img src="${ch.thumb}" alt="${ch.title}">
-        <h3 style="margin-top:1rem;">${ch.title}</h3>
-      </div>
-    `;
-  }).join('');
-  showPage('chapters');
-  history.pushState({ page: 'chapters' }, '');
-}
+      const filtered = chapters.filter(ch => ch.series === seriesId);
+      document.getElementById('all-chapters-grid').innerHTML = filtered.map(ch => {
+        const i = chapters.indexOf(ch);
+        return `
+          <div class="title-card" onclick="startReading(${i})">
+            <img src="${ch.thumb}" alt="${ch.title}">
+            <h3 style="margin-top:1rem;">${ch.title}</h3>
+          </div>
+        `;
+      }).join('');
+      showPage('chapters');
+      history.pushState({ page: 'chapters' }, '');
+    }
  
     function startReading(index) {
       currentIndex = index;
       currentPage  = 0;
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById('reader-page').classList.add('active');
+      document.body.classList.add('reader-open');
+      window.scrollTo(0, 0);
       showPageImage();
       history.pushState({ reader: true, page: 0 }, '');
     }
  
     function exitReader() {
       document.getElementById('reader-page').classList.remove('active');
+      document.body.classList.remove('reader-open');
     }
  
     function showPageImage() {
-  const ch = chapters[currentIndex];
-  const img = document.getElementById('reader-img');
-
-  // flash buttons orange
-  document.querySelectorAll('.reader-nav-btn').forEach(btn => {
-    btn.style.color = 'var(--accent)';
-    btn.style.background = '#1e1e1e';
-  });
-
-  img.src = ch.pages[currentPage];
-
-  // reset buttons when image finishes loading
-  img.onload = () => {
-    document.querySelectorAll('.reader-nav-btn').forEach(btn => {
-      btn.style.color = '';
-      btn.style.background = '';
-    });
-  };
-
-  // preload next page
-  if (currentPage + 1 < ch.pages.length) {
-    const preload = new Image();
-    preload.src = ch.pages[currentPage + 1];
-  }
-}
+      const ch = chapters[currentIndex];
+      const img = document.getElementById('reader-img');
+ 
+      // flash buttons orange
+      document.querySelectorAll('.reader-nav-btn').forEach(btn => {
+        btn.style.color = 'var(--accent)';
+        btn.style.background = '#1e1e1e';
+      });
+ 
+      img.src = ch.pages[currentPage];
+ 
+      // reset buttons when image finishes loading
+      img.onload = () => {
+        document.querySelectorAll('.reader-nav-btn').forEach(btn => {
+          btn.style.color = '';
+          btn.style.background = '';
+        });
+        window.scrollTo(0, 0);
+      };
+ 
+      // preload next page
+      if (currentPage + 1 < ch.pages.length) {
+        const preload = new Image();
+        preload.src = ch.pages[currentPage + 1];
+      }
+    }
  
     function nextPage() {
       const ch = chapters[currentIndex];
@@ -357,35 +369,36 @@
         showPageImage();
         history.pushState({ reader: true, page: currentPage }, '');
       } else {
-    exitReader();
-    showPage('home');
-  }
+        exitReader();
+        showPage('home');
+      }
     }
  
     function prevPage() {
-  history.back();
-}
+      history.back();
+    }
  
     // Browser back button
     window.addEventListener('popstate', () => {
-  if (document.getElementById('reader-page').classList.contains('active')) {
-    if (currentPage > 0) {
-      currentPage--;
-      showPageImage();
-    } else {
-      exitReader();
-    }
-  } else if (document.getElementById('chapters').classList.contains('active')) {
-    showPage('home');
-  }
-});
+      if (document.getElementById('reader-page').classList.contains('active')) {
+        if (currentPage > 0) {
+          currentPage--;
+          showPageImage();
+        } else {
+          exitReader();
+          showPage('home');
+        }
+      } else if (document.getElementById('chapters').classList.contains('active')) {
+        showPage('home');
+      }
+    });
  
     // Keyboard
     document.addEventListener('keydown', e => {
       if (!document.getElementById('reader-page').classList.contains('active')) return;
       if (e.key === 'ArrowLeft' || e.key === ' ') nextPage();
       if (e.key === 'ArrowRight') prevPage();
-      if (e.key === 'Escape') history.back();
+      if (e.key === 'Escape') { exitReader(); showPage('home'); }
     });
  
     // Init
@@ -394,3 +407,4 @@
   </script>
 </body>
 </html>
+ 
