@@ -337,10 +337,7 @@
       const ch = chapters[currentIndex];
       const img = document.getElementById('reader-img');
 
-    window.scrollTo({
-      left: document.documentElement.scrollWidth,
-      top: 0
-    });
+    window.scrollTo(document.documentElement.scrollWidth, 0);
       
       // flash buttons orange
       document.querySelectorAll('.reader-nav-btn').forEach(btn => {
