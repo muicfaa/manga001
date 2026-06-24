@@ -158,6 +158,7 @@
  
     .reader-img {
       width: 100%;
+      max-width: 1000px;
       margin: 0 auto;
       display: block;
       user-select: none;
@@ -236,7 +237,7 @@
     <p>© HH 2025. All rights reserved.</p>
   </footer>
  
-  <!-- READER — now a proper page in the flow -->
+  <!-- READER -->
   <div id="reader-page">
  
     <div class="reader-header">
@@ -335,7 +336,12 @@
     function showPageImage() {
       const ch = chapters[currentIndex];
       const img = document.getElementById('reader-img');
- 
+
+    window.scrollTo({
+      left: document.documentElement.scrollWidth,
+      top: 0
+    });
+      
       // flash buttons orange
       document.querySelectorAll('.reader-nav-btn').forEach(btn => {
         btn.style.color = 'var(--accent)';
