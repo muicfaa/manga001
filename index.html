@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>UCHŪJIN COMIC</title>
+  <title>ふんぬー！</title>
   <style>
     :root { --accent: #e69039; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -198,7 +198,7 @@
   <!-- HEADER -->
   <header>
     <img src="icon1.jpg" alt="Logo" class="logo" onclick="showPage('home')">
-    <h1 onclick="showPage('home')">uchūjin comic</h1>
+    <h1 onclick="showPage('home')">ふんぬー！</h1>
   </header>
  
   <!-- HOME PAGE -->
@@ -218,7 +218,11 @@
       <div class="title-cards">
         <div class="title-card" onclick="filterBySeries(1)">
           <img src="icon1.jpg" alt="Egg-Sapien">
-          <h3 style="margin-top:1rem;">Egg-Sapienと便秘の子どもたち</h3>
+          <h3 style="margin-top:1rem;">Egg-Sapien 便秘の子どもたち</h3>
+        </div>
+         <div class="title-card" onclick="filterBySeries(2)">
+          <img src="icon1.jpg" alt="Echo-Metal">
+          <h3 style="margin-top:1rem;">1990 Metal</h3>
         </div>
       </div>
     </section>
@@ -242,7 +246,7 @@
  
     <div class="reader-header">
       <img src="icon1.jpg" alt="Logo" class="logo" onclick="showPage('home')">
-      <h1 onclick="exitReader(); showPage('home');">Egg-Sapienと便秘の子ども</h1>
+      <h1 onclick="exitReader(); showPage('home');">ふんぬー！</h1>
     </div>
  
     <div class="reader-img-wrap" onclick="nextPage()">
@@ -271,7 +275,19 @@
           "1.jpg","2.jpg","3.jpg","4.jpg",
           "5.jpg","6.jpg","7.jpg","8.jpg",
           "9.jpg","10.jpg","11.jpg","12.jpg",
-          "13.jpg","14.jpg"
+          "13.jpg","14.jpg","thanku.jpg"
+        ]
+      },
+       {
+        id: 2,
+        title: "メタル (漫画のベース)",
+        series: 2,
+        thumb: "METAL1.jpg",
+        pages: [
+          "1.jpg","2.jpg","3.jpg","4.jpg",
+          "5.jpg","6.jpg","7.jpg","8.jpg",
+          "9.jpg","10.jpg","11.jpg","12.jpg",
+          "13.jpg","14.jpg","thanku.jpg"
         ]
       },
     ];
