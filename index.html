@@ -164,6 +164,7 @@
       user-select: none;
       -webkit-user-drag: none;
       -webkit-touch-callout: none;
+      filter: brightness(0.85);
     }
  
     /* ========== BOTTOM NAV ========== */
@@ -198,7 +199,7 @@
   <!-- HEADER -->
   <header>
     <img src="icon1.jpg" alt="Logo" class="logo" onclick="showPage('home')">
-    <h1 onclick="showPage('home')">HH Doodle</h1>
+    <h1 onclick="showPage('home')">HH oekaki</h1>
   </header>
  
   <!-- HOME PAGE -->
@@ -233,7 +234,7 @@
   <div id="chapters" class="page">
      
     <div class="section">
-      <h2 style="margin-bottom:1.5rem;">Episodes</h2>
+      <h2 style="margin-bottom:1.5rem;">Chapters</h2>
       <div class="title-cards" id="all-chapters-grid"></div>
     </div>
   </div>
@@ -247,7 +248,7 @@
  
     <div class="reader-header">
       <img src="icon1.jpg" alt="Logo" class="logo" onclick="showPage('home')">
-      <h1 onclick="exitReader(); showPage('chapters');">HH Oekaki</h1>
+      <h1 onclick="exitReader(); filterBySeries(chapters[currentIndex].series);"></h1>
     </div>
  
     <div class="reader-img-wrap" onclick="nextPage()">
@@ -349,6 +350,7 @@
     function startReading(index) {
       currentIndex = index;
       currentPage  = 0;
+      document.querySelector('.reader-header h1').textContent = chapters[index].title;
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById('reader-page').classList.add('active');
       document.body.classList.add('reader-open');
@@ -399,10 +401,20 @@
         showPageImage();
         history.pushState({ reader: true, page: currentPage }, '');
       } else {
-        exitReader();
-        showPage('home');
-      }
+         // find next chapter in same series
+    const nextChapter = chapters.find((c, i) => i > currentIndex && c.series === ch.series);
+    if (nextChapter) {
+      currentIndex = chapters.indexOf(nextChapter);
+      currentPage = 0;
+      showPageImage();
+      history.pushState({ reader: true, page: 0 }, '');
+    } else {
+      // no more chapters — go to series page
+      exitReader();
+      filterBySeries(ch.series);
     }
+  }
+}
  
     function prevPage() {
       history.back();
